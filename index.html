@@ -937,6 +937,105 @@ html, body {
 }
 .fc-complete.show { display: flex; }
 
+
+/* ══════════════════════════════════════════════════════
+   RESOURCES / REVISION PACKS SCREEN
+══════════════════════════════════════════════════════ */
+#resources-home {
+  background: var(--navy);
+}
+.res-inner {
+  padding: calc(var(--safe-top) + 1rem) 1.25rem calc(var(--safe-bot) + 5rem);
+  min-height: 100%;
+  position: relative;
+  z-index: 1;
+}
+.res-hero {
+  background: linear-gradient(135deg, rgba(46,125,50,0.2), rgba(27,43,75,0.4));
+  border: 1px solid rgba(46,125,50,0.25);
+  border-radius: 18px;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+.res-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-bottom: 0.6rem;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.res-card.available {
+  cursor: pointer;
+  border-color: rgba(46,125,50,0.3);
+  background: rgba(46,125,50,0.06);
+}
+.res-card.available:active {
+  background: rgba(46,125,50,0.18);
+  border-color: rgba(46,125,50,0.6);
+  transform: scale(0.98);
+}
+.res-card.coming-soon {
+  opacity: 0.45;
+}
+.res-icon-wrap {
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  background: rgba(46,125,50,0.12);
+}
+.res-card.coming-soon .res-icon-wrap {
+  background: rgba(255,255,255,0.05);
+}
+.res-info { flex: 1; min-width: 0; }
+.res-code {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--grey);
+  text-transform: uppercase;
+  margin-bottom: 0.15rem;
+}
+.res-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.res-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 20px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.res-badge.open {
+  background: rgba(46,125,50,0.2);
+  color: #81C784;
+  border: 1px solid rgba(46,125,50,0.35);
+}
+.res-badge.soon {
+  background: rgba(255,255,255,0.05);
+  color: var(--grey);
+  border: 1px solid transparent;
+}
+.res-pdf-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  color: #81C784;
+}
+
 </style>
 </head>
 <body>
@@ -3266,6 +3365,87 @@ function showTab(tab) {
 buildHome();
 updateOverallProgress();
 checkIOSInstall();
+
+// ═══════════════════════════════════════════════════════════════════════════
+// REVISION PACKS — RESOURCES TAB
+// ═══════════════════════════════════════════════════════════════════════════
+
+// PDF filenames — set the filename for completed packs, null for coming soon.
+// Files must be uploaded to your GitHub repository root alongside index.html.
+const REVISION_PACKS = {
+  "1.1": "revision_pack_1_1_population_dynamics.pdf",
+  "1.2": null,
+  "1.3": null,
+  "1.4": null,
+  "1.5": null,
+  "1.6": null,
+  "1.7": null,
+  "2.1": "revision_pack_2_1_earthquakes_volcanoes.pdf",
+  "2.2": null,
+  "2.3": null,
+  "2.5": null,
+  "3.1": null,
+  "3.2": null,
+  "3.3": null,
+  "3.4": null,
+  "3.5": null,
+  "3.6": null,
+  "3.7": null,
+};
+
+function buildResources() {
+  [1,2,3].forEach(sec => {
+    const grid = document.getElementById('res-grid-' + sec);
+    if (!grid) return;
+    grid.innerHTML = '';
+    TOPICS.filter(t => t.section === sec).forEach(topic => {
+      const pdf = REVISION_PACKS[topic.id];
+      const available = !!pdf;
+      const card = document.createElement('div');
+      card.className = 'res-card ' + (available ? 'available' : 'coming-soon');
+      if (available) {
+        card.onclick = () => openRevisionPack(topic.id, pdf);
+      }
+      card.innerHTML = `
+        <div class="res-icon-wrap">${topic.icon}</div>
+        <div class="res-info">
+          <div class="res-code">Theme ${topic.id}</div>
+          <div class="res-name">${topic.name}</div>
+        </div>
+        ${available
+          ? `<span class="res-badge open">Open PDF</span>
+             <span class="res-pdf-icon">📄</span>`
+          : `<span class="res-badge soon">Coming soon</span>`
+        }`;
+      grid.appendChild(card);
+    });
+  });
+}
+
+function openRevisionPack(topicId, filename) {
+  // Build URL relative to where the app is hosted
+  const base = window.location.href.replace(/\/[^\/]*$/, '/');
+  const url  = base + filename;
+  window.open(url, '_blank');
+}
+
+// Patch showTab to handle resources
+const _origShowTab = showTab;
+function showTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-btn[data-tab="' + tab + '"]').forEach(b => b.classList.add('active'));
+  if (tab === 'quizzes') {
+    buildHome();
+    showScreen('home');
+  } else if (tab === 'flashcards') {
+    buildFCHome();
+    showScreen('flashcard-home');
+  } else if (tab === 'resources') {
+    buildResources();
+    showScreen('resources-home');
+  }
+}
+
 </script>
 
 <!-- ══════════════════════════════ FLASHCARD HOME ══════════════════════════ -->
@@ -3407,6 +3587,46 @@ checkIOSInstall();
     <span class="tab-icon">🃏</span>
     <span class="tab-label">Flashcards</span>
   </button>
+  <button class="tab-btn" data-tab="resources" onclick="showTab('resources')">
+    <span class="tab-icon">📚</span>
+    <span class="tab-label">Revision</span>
+  </button>
+</div>
+
+
+<!-- ══════════════════════════════ RESOURCES SCREEN ════════════════════════ -->
+<div class="screen" id="resources-home">
+  <div class="home-bg"></div>
+  <div class="res-inner">
+
+    <div class="logo-wrap">
+      <div class="logo-badge">S</div>
+      <div class="logo-text">
+        <div class="school">Santo António International School</div>
+        <div class="app">Revision Packs</div>
+      </div>
+    </div>
+
+    <div class="res-hero">
+      <div class="hero-eyebrow" style="margin-bottom:0.3rem">Cambridge IGCSE 0460 · Last exams 2026</div>
+      <div style="font-size:1.4rem;font-weight:800;line-height:1.2;margin-bottom:0.4rem">
+        Full <em style="color:#81C784;font-style:normal">Revision Packs</em>
+      </div>
+      <p style="font-size:0.82rem;color:var(--grey);line-height:1.5;margin:0">
+        Tap any available topic to open the full revision pack PDF — diagrams, case studies, key terms, exam questions and mark schemes.
+      </p>
+    </div>
+
+    <div class="section-label">Section 1 — Population &amp; Settlement</div>
+    <div id="res-grid-1"></div>
+
+    <div class="section-label">Section 2 — The Natural Environment</div>
+    <div id="res-grid-2"></div>
+
+    <div class="section-label">Section 3 — Economic Development</div>
+    <div id="res-grid-3"></div>
+
+  </div>
 </div>
 
 </body>
