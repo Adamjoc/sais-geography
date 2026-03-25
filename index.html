@@ -2203,7 +2203,12 @@ function buildResources(){
       var card=document.createElement('div');
       card.className='res-card '+(available?'available':'coming-soon');
       if(available){
-        (function(f){card.onclick=function(){window.location.href=window.location.href.replace(/\/[^\/]*$/,'/')+f;};})(pack.file);
+        (function(f){
+        card.onclick=function(){
+          var base=window.location.origin+window.location.pathname.replace(/[^/]*$/,'');
+          window.location.href=base+f;
+        };
+      })(pack.file);
       }
       var noteHTML=(available&&pack.note)?'<div class="res-note">'+pack.note+'</div>':'';
       card.innerHTML='<div class="res-icon-wrap">'+topic.icon+'</div><div class="res-info"><div class="res-code">Theme '+topic.id+'</div><div class="res-name">'+topic.name+'</div>'+noteHTML+'</div>'+(available?'<span class="res-badge open">Open PDF</span>':'<span class="res-badge soon">Coming soon</span>');
