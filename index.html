@@ -8,1098 +8,237 @@
 <meta name="apple-mobile-web-app-title" content="SAIS Geography">
 <meta name="theme-color" content="#1B2B4B">
 <title>SAIS Geography Revision</title>
-
-<!-- PWA Manifest inline -->
 <script>
-const manifest = {
-  name: "SAIS Geography Revision",
-  short_name: "SAIS Geo",
-  description: "Cambridge IGCSE 0460 revision quizzes for Paper 1",
-  start_url: ".",
-  display: "standalone",
-  background_color: "#1B2B4B",
-  theme_color: "#1B2B4B",
-  orientation: "portrait",
-  icons: [
-    { src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' fill='%231B2B4B' rx='32'/><text x='50%' y='58%' font-family='Georgia' font-weight='bold' font-size='72' fill='%23F5A623' text-anchor='middle' dominant-baseline='middle'>S</text></svg>", sizes: "192x192", type: "image/svg+xml" },
-    { src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' fill='%231B2B4B' rx='80'/><text x='50%' y='58%' font-family='Georgia' font-weight='bold' font-size='200' fill='%23F5A623' text-anchor='middle' dominant-baseline='middle'>S</text></svg>", sizes: "512x512", type: "image/svg+xml" }
-  ]
-};
-const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
-const url = URL.createObjectURL(blob);
-const link = document.createElement('link');
-link.rel = 'manifest'; link.href = url;
-document.head.appendChild(link);
+const manifest={name:"SAIS Geography Revision",short_name:"SAIS Geo",start_url:".",display:"standalone",background_color:"#1B2B4B",theme_color:"#1B2B4B",icons:[{src:"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' fill='%231B2B4B' rx='32'/><text x='50%' y='58%' font-family='Georgia' font-weight='bold' font-size='72' fill='%23F5A623' text-anchor='middle' dominant-baseline='middle'>S</text></svg>",sizes:"192x192",type:"image/svg+xml"}]};
+const b=new Blob([JSON.stringify(manifest)],{type:'application/json'});
+const l=document.createElement('link');l.rel='manifest';l.href=URL.createObjectURL(b);document.head.appendChild(l);
 </script>
-
 <style>
-:root {
-  --navy:   #1B2B4B;
-  --navy2:  #243560;
-  --teal:   #1A6B7A;
-  --teal2:  #22899B;
-  --amber:  #D4860A;
-  --gold:   #F5A623;
-  --green:  #2E7D32;
-  --red:    #C62828;
-  --white:  #FFFFFF;
-  --off:    #F0F6FF;
-  --grey:   #8A99B0;
-  --border: rgba(255,255,255,0.1);
-  --card:   rgba(255,255,255,0.06);
-  --safe-top: env(safe-area-inset-top, 0px);
-  --safe-bot: env(safe-area-inset-bottom, 0px);
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-html, body {
-  height: 100%;
-  font-family: -apple-system, 'SF Pro Display', 'Segoe UI', sans-serif;
-  background: var(--navy);
-  color: var(--white);
-  overflow: hidden;
-}
-
-/* ── SCREENS ── */
-.screen {
-  position: fixed;
-  inset: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-  display: none;
-  flex-direction: column;
-}
-.screen.active { display: flex; }
-
-/* ── HOME SCREEN ── */
-#home {
-  background: var(--navy);
-}
-
-.home-bg {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse at 15% 25%, rgba(26,107,122,0.3) 0%, transparent 55%),
-    radial-gradient(ellipse at 85% 75%, rgba(212,134,10,0.15) 0%, transparent 50%);
-}
-
-/* Soft decorative circles */
-.home-bg::before {
-  content: '';
-  position: absolute;
-  width: 280px; height: 280px;
-  border-radius: 50%;
-  border: 1px solid rgba(245,166,35,0.08);
-  top: -60px; right: -80px;
-}
-.home-bg::after {
-  content: '';
-  position: absolute;
-  width: 200px; height: 200px;
-  border-radius: 50%;
-  border: 1px solid rgba(26,107,122,0.12);
-  bottom: 100px; left: -60px;
-}
-
-.home-inner {
-  position: relative;
-  z-index: 1;
-  padding: calc(var(--safe-top) + 1.5rem) 1.25rem calc(var(--safe-bot) + 2rem);
-  min-height: 100%;
-}
-
-/* Logo / branding */
-.logo-wrap {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  margin-bottom: 2rem;
-}
-.logo-badge {
-  width: 46px; height: 46px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--teal), var(--navy2));
-  border: 1.5px solid rgba(245,166,35,0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: var(--gold);
-  letter-spacing: -0.03em;
-  font-family: Georgia, serif;
-  flex-shrink: 0;
-}
-.logo-text { line-height: 1.2; }
-.logo-text .school { font-size: 0.75rem; color: var(--grey); font-weight: 500; letter-spacing: 0.04em; }
-.logo-text .app { font-size: 1rem; font-weight: 700; color: var(--white); }
-
-/* Hero section */
-.hero {
-  background: linear-gradient(135deg, rgba(26,107,122,0.25), rgba(27,43,75,0.4));
-  border: 1px solid rgba(26,107,122,0.3);
-  border-radius: 20px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-.hero-eyebrow {
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  color: var(--gold);
-  text-transform: uppercase;
-  margin-bottom: 0.4rem;
-}
-.hero h1 {
-  font-size: 1.65rem;
-  font-weight: 800;
-  line-height: 1.2;
-  margin-bottom: 0.5rem;
-}
-.hero h1 em { color: var(--gold); font-style: normal; }
-.hero p {
-  font-size: 0.85rem;
-  color: var(--grey);
-  line-height: 1.5;
-  margin-bottom: 1rem;
-}
-.hero-stats {
-  display: flex;
-  gap: 1rem;
-}
-.stat {
-  text-align: center;
-}
-.stat-num {
-  display: block;
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: var(--gold);
-  line-height: 1;
-}
-.stat-lbl {
-  font-size: 0.68rem;
-  color: var(--grey);
-  font-weight: 500;
-  letter-spacing: 0.05em;
-}
-
-/* Section headings */
-.section-label {
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  color: var(--gold);
-  text-transform: uppercase;
-  margin: 1.5rem 0 0.75rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.section-label::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: rgba(245,166,35,0.2);
-}
-
-/* Topic cards */
-.topic-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.topic-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 0.9rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  -webkit-touch-callout: none;
-}
-.topic-card:active {
-  background: rgba(26,107,122,0.2);
-  border-color: var(--teal);
-  transform: scale(0.98);
-}
-
-.topic-icon {
-  width: 42px; height: 42px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
-  flex-shrink: 0;
-}
-
-.topic-info { flex: 1; min-width: 0; }
-.topic-code {
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--grey);
-  text-transform: uppercase;
-  margin-bottom: 0.15rem;
-}
-.topic-name {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--white);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.topic-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.3rem;
-  flex-shrink: 0;
-}
-.best-score {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--grey);
-}
-.best-score.has-score { color: var(--gold); }
-.chevron { color: var(--grey); font-size: 0.8rem; }
-
-/* Score pill on card */
-.score-pill {
-  font-size: 0.65rem;
-  font-weight: 700;
-  padding: 0.15rem 0.45rem;
-  border-radius: 20px;
-  background: rgba(255,255,255,0.08);
-  color: var(--grey);
-  letter-spacing: 0.04em;
-}
-.score-pill.good { background: rgba(46,125,50,0.25); color: #81C784; }
-.score-pill.ok   { background: rgba(212,134,10,0.2); color: var(--gold); }
-.score-pill.low  { background: rgba(198,40,40,0.2); color: #EF9A9A; }
-
-/* ── QUIZ SCREEN ── */
-#quiz {
-  background: var(--navy);
-}
-
-.quiz-header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: rgba(27,43,75,0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  padding: calc(var(--safe-top) + 0.75rem) 1.25rem 0.75rem;
-  border-bottom: 1px solid var(--border);
-}
-
-.quiz-nav {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
-}
-
-.back-btn {
-  width: 34px; height: 34px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--white);
-  font-size: 1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.quiz-title-wrap { flex: 1; min-width: 0; }
-.quiz-topic-name {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--white);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.quiz-topic-code { font-size: 0.65rem; color: var(--grey); }
-
-.quiz-counter {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--gold);
-  flex-shrink: 0;
-}
-
-/* Progress bar */
-.prog-bar {
-  height: 3px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 2px;
-  overflow: hidden;
-}
-.prog-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--teal), var(--gold));
-  border-radius: 2px;
-  transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
-}
-
-/* Quiz body */
-.quiz-body {
-  padding: 1.25rem 1.25rem calc(var(--safe-bot) + 6rem);
-  flex: 1;
-}
-
-.q-topic-tag {
-  display: inline-block;
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--teal2);
-  background: rgba(26,107,122,0.15);
-  border: 1px solid rgba(26,107,122,0.3);
-  border-radius: 6px;
-  padding: 0.2rem 0.5rem;
-  margin-bottom: 0.75rem;
-}
-
-.q-text {
-  font-size: 1.05rem;
-  font-weight: 600;
-  line-height: 1.55;
-  color: var(--white);
-  margin-bottom: 1.25rem;
-}
-
-/* Options */
-.options { display: flex; flex-direction: column; gap: 0.55rem; }
-
-.opt-btn {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  width: 100%;
-  background: rgba(255,255,255,0.05);
-  border: 1.5px solid rgba(255,255,255,0.1);
-  border-radius: 12px;
-  padding: 0.85rem 1rem;
-  color: var(--white);
-  font-size: 0.9rem;
-  font-weight: 500;
-  text-align: left;
-  cursor: pointer;
-  transition: all 0.18s ease;
-  line-height: 1.4;
-}
-.opt-btn:active:not(:disabled) { transform: scale(0.98); }
-
-.opt-letter {
-  width: 26px; height: 26px;
-  border-radius: 7px;
-  background: rgba(255,255,255,0.08);
-  font-size: 0.75rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: all 0.18s ease;
-  margin-top: 1px;
-}
-
-.opt-btn.correct {
-  background: rgba(46,125,50,0.2);
-  border-color: var(--green);
-}
-.opt-btn.correct .opt-letter { background: var(--green); }
-
-.opt-btn.wrong {
-  background: rgba(198,40,40,0.15);
-  border-color: var(--red);
-}
-.opt-btn.wrong .opt-letter { background: var(--red); }
-
-.opt-btn.reveal {
-  background: rgba(46,125,50,0.1);
-  border-color: rgba(46,125,50,0.4);
-}
-.opt-btn.reveal .opt-letter { background: rgba(46,125,50,0.5); }
-
-/* Feedback */
-.feedback-box {
-  margin-top: 1rem;
-  padding: 0.9rem 1rem;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  line-height: 1.55;
-  display: none;
-  animation: fadeUp 0.25s ease;
-}
-.feedback-box.show { display: block; }
-.feedback-box.correct-fb {
-  background: rgba(46,125,50,0.15);
-  border: 1px solid rgba(46,125,50,0.35);
-  color: #C8E6C9;
-}
-.feedback-box.wrong-fb {
-  background: rgba(198,40,40,0.12);
-  border: 1px solid rgba(198,40,40,0.3);
-  color: #FFCDD2;
-}
-.feedback-box strong { color: var(--white); }
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* Next button — fixed bottom */
-.next-wrap {
-  position: fixed;
-  bottom: 0;
-  left: 0; right: 0;
-  padding: 0.75rem 1.25rem calc(var(--safe-bot) + 0.75rem);
-  background: linear-gradient(transparent, rgba(27,43,75,0.98) 30%);
-  display: none;
-  z-index: 10;
-}
-.next-wrap.show { display: block; }
-.next-btn {
-  width: 100%;
-  padding: 1rem;
-  background: linear-gradient(135deg, var(--teal), #0d5260);
-  border: none;
-  border-radius: 14px;
-  color: var(--white);
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  letter-spacing: 0.02em;
-  box-shadow: 0 8px 24px rgba(26,107,122,0.35);
-}
-
-/* ── RESULTS SCREEN ── */
-#results {
-  background: var(--navy);
-  align-items: center;
-  justify-content: center;
-}
-
-.results-inner {
-  padding: calc(var(--safe-top) + 2rem) 1.5rem calc(var(--safe-bot) + 2rem);
-  text-align: center;
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.results-icon { font-size: 4rem; margin-bottom: 1rem; }
-.results-title {
-  font-size: 1.8rem;
-  font-weight: 800;
-  margin-bottom: 0.25rem;
-}
-.results-topic {
-  font-size: 0.8rem;
-  color: var(--grey);
-  margin-bottom: 1.5rem;
-}
-
-.score-ring-wrap {
-  margin: 0 auto 1.5rem;
-  width: 140px; height: 140px;
-  position: relative;
-}
-.score-ring-wrap svg { transform: rotate(-90deg); }
-.score-ring-bg { fill: none; stroke: rgba(255,255,255,0.08); stroke-width: 8; }
-.score-ring-fill {
-  fill: none;
-  stroke: var(--gold);
-  stroke-width: 8;
-  stroke-linecap: round;
-  stroke-dasharray: 339.3;
-  stroke-dashoffset: 339.3;
-  transition: stroke-dashoffset 1s cubic-bezier(0.4,0,0.2,1);
-}
-.score-ring-text {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.score-pct {
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: var(--gold);
-  line-height: 1;
-}
-.score-label { font-size: 0.7rem; color: var(--grey); font-weight: 600; }
-
-.score-msg {
-  font-size: 0.88rem;
-  color: var(--grey);
-  line-height: 1.6;
-  margin-bottom: 1.75rem;
-}
-
-.results-stats {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-bottom: 1.75rem;
-}
-.r-stat { text-align: center; }
-.r-stat-num {
-  display: block;
-  font-size: 1.6rem;
-  font-weight: 800;
-  line-height: 1;
-  margin-bottom: 0.2rem;
-}
-.r-stat-num.c { color: #81C784; }
-.r-stat-num.w { color: #EF9A9A; }
-.r-stat-lbl { font-size: 0.68rem; color: var(--grey); font-weight: 600; letter-spacing: 0.06em; }
-
-.new-best {
-  display: none;
-  background: rgba(245,166,35,0.15);
-  border: 1px solid rgba(245,166,35,0.3);
-  border-radius: 10px;
-  padding: 0.6rem 1rem;
-  font-size: 0.82rem;
-  color: var(--gold);
-  font-weight: 600;
-  margin-bottom: 1.25rem;
-}
-.new-best.show { display: block; }
-
-.results-btns { display: flex; flex-direction: column; gap: 0.6rem; }
-
-.btn-primary {
-  padding: 1rem;
-  background: linear-gradient(135deg, var(--teal), #0d5260);
-  border: none;
-  border-radius: 14px;
-  color: var(--white);
-  font-size: 0.95rem;
-  font-weight: 700;
-  cursor: pointer;
-  width: 100%;
-}
-.btn-secondary {
-  padding: 0.9rem;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  color: var(--white);
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  width: 100%;
-}
-
-/* ── ANIMATIONS ── */
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.anim { animation: slideUp 0.3s cubic-bezier(0.4,0,0.2,1); }
-
-/* ══════════════════════════════════════════════════════
-   FLASHCARD STYLES
-══════════════════════════════════════════════════════ */
-
-/* Bottom nav tab bar */
-.tab-bar {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  z-index: 50;
-  background: rgba(20,32,60,0.97);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-top: 1px solid rgba(255,255,255,0.08);
-  display: flex;
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-}
-.tab-btn {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem 0.25rem;
-  gap: 0.2rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--grey);
-  transition: color 0.2s;
-  -webkit-tap-highlight-color: transparent;
-}
-.tab-btn.active { color: var(--gold); }
-.tab-icon { font-size: 1.2rem; line-height: 1; }
-.tab-label { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
-
-/* Push home/quiz content above tab bar */
-.home-inner { padding-bottom: calc(var(--safe-bot) + 5rem) !important; }
-
-/* ── FLASHCARD HOME SCREEN ── */
-#flashcard-home {
-  background: var(--navy);
-}
-.fc-home-inner {
-  padding: calc(var(--safe-top) + 1rem) 1.25rem calc(var(--safe-bot) + 5rem);
-  min-height: 100%;
-}
-.fc-hero {
-  background: linear-gradient(135deg, rgba(212,134,10,0.2), rgba(27,43,75,0.4));
-  border: 1px solid rgba(212,134,10,0.25);
-  border-radius: 18px;
-  padding: 1.25rem;
-  margin-bottom: 1.25rem;
-}
-.fc-topic-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 0.9rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  margin-bottom: 0.6rem;
-  -webkit-tap-highlight-color: transparent;
-}
-.fc-topic-card:active { background: rgba(212,134,10,0.15); border-color: var(--amber); transform: scale(0.98); }
-.fc-topic-card.coming-soon { opacity: 0.45; cursor: default; }
-.fc-topic-card.coming-soon:active { transform: none; background: var(--card); border-color: var(--border); }
-.fc-count-pill {
-  font-size: 0.65rem;
-  font-weight: 700;
-  padding: 0.15rem 0.5rem;
-  border-radius: 20px;
-  background: rgba(245,166,35,0.15);
-  color: var(--gold);
-  border: 1px solid rgba(245,166,35,0.25);
-  white-space: nowrap;
-}
-.fc-count-pill.soon {
-  background: rgba(255,255,255,0.05);
-  color: var(--grey);
-  border-color: transparent;
-}
-
-/* ── FLASHCARD VIEWER SCREEN ── */
-#flashcard-viewer {
-  background: var(--navy);
-  display: none;
-  flex-direction: column;
-}
-#flashcard-viewer.active { display: flex; }
-
-.fc-header {
-  position: sticky; top: 0; z-index: 10;
-  background: rgba(27,43,75,0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-  padding: calc(var(--safe-top) + 0.75rem) 1.25rem 0.75rem;
-}
-.fc-nav {
-  display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.65rem;
-}
-.fc-title-wrap { flex: 1; min-width: 0; }
-.fc-topic-name { font-size: 0.85rem; font-weight: 700; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.fc-topic-sub  { font-size: 0.65rem; color: var(--grey); }
-.fc-counter    { font-size: 0.8rem; font-weight: 700; color: var(--gold); flex-shrink: 0; }
-
-/* Card stage filter tabs */
-.fc-tabs {
-  display: flex; gap: 0.4rem; overflow-x: auto; padding-bottom: 2px;
-  scrollbar-width: none;
-}
-.fc-tabs::-webkit-scrollbar { display: none; }
-.fc-tab {
-  flex-shrink: 0;
-  font-size: 0.68rem; font-weight: 700;
-  padding: 0.3rem 0.7rem;
-  border-radius: 20px;
-  border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--grey);
-  cursor: pointer;
-  letter-spacing: 0.04em;
-  -webkit-tap-highlight-color: transparent;
-}
-.fc-tab.active { background: var(--gold); color: var(--navy); border-color: var(--gold); }
-
-/* Main card area */
-.fc-body {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem 1.25rem;
-  padding-bottom: calc(var(--safe-bot) + 5.5rem);
-  overflow: hidden;
-}
-
-/* The flip card */
-.flip-card-wrap {
-  width: 100%;
-  max-width: 400px;
-  perspective: 1200px;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
-}
-.flip-card {
-  position: relative;
-  width: 100%;
-  height: 260px;
-  transform-style: preserve-3d;
-  transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);
-}
-.flip-card.flipped { transform: rotateY(180deg); }
-
-.fc-face {
-  position: absolute;
-  inset: 0;
-  border-radius: 20px;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-/* FRONT face */
-.fc-face-front {
-  background: var(--navy2);
-  border: 1.5px solid rgba(255,255,255,0.1);
-}
-.fc-face-front.kw-type { background: linear-gradient(160deg, #1B3060, #1B2B4B); border-color: rgba(245,166,35,0.3); }
-.fc-face-front.qa-type { background: linear-gradient(160deg, #0d4a56, #1A3540); border-color: rgba(26,107,122,0.5); }
-
-.fc-face-front-header {
-  padding: 0.75rem 1rem 0.5rem;
-  display: flex; align-items: center; gap: 0.5rem;
-}
-.fc-type-badge {
-  font-size: 0.6rem; font-weight: 800; letter-spacing: 0.1em;
-  padding: 0.2rem 0.55rem; border-radius: 20px;
-  text-transform: uppercase;
-}
-.fc-type-badge.kw { background: rgba(245,166,35,0.2); color: var(--gold); border: 1px solid rgba(245,166,35,0.35); }
-.fc-type-badge.qa { background: rgba(26,107,122,0.3); color: #7DD3DB; border: 1px solid rgba(26,107,122,0.4); }
-.fc-topic-tag-sm {
-  font-size: 0.6rem; font-weight: 700; color: var(--grey);
-  letter-spacing: 0.08em; text-transform: uppercase;
-  flex: 1; text-align: right;
-}
-.fc-card-num {
-  font-size: 0.6rem; color: var(--grey); font-weight: 600;
-}
-
-.fc-face-front-body {
-  flex: 1;
-  display: flex; align-items: center; justify-content: center;
-  padding: 0.5rem 1.25rem 0.75rem;
-  text-align: center;
-}
-.fc-front-text {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--white);
-  line-height: 1.4;
-}
-.fc-front-text.long { font-size: 1rem; }
-.fc-front-text.very-long { font-size: 0.88rem; font-weight: 600; }
-
-.fc-face-front-footer {
-  padding: 0.5rem 1rem;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  display: flex; align-items: center; justify-content: center; gap: 0.4rem;
-}
-.fc-tap-hint { font-size: 0.68rem; color: var(--grey); }
-.fc-tap-hint span { font-size: 0.85rem; }
-
-/* BACK face */
-.fc-face-back {
-  background: var(--white);
-  transform: rotateY(180deg);
-  border: 1.5px solid rgba(27,43,75,0.15);
-}
-.fc-face-back-header {
-  background: var(--navy);
-  padding: 0.6rem 1rem;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.fc-back-label { font-size: 0.62rem; font-weight: 800; letter-spacing: 0.12em; color: var(--gold); text-transform: uppercase; }
-.fc-back-num   { font-size: 0.62rem; color: rgba(255,255,255,0.5); font-weight: 600; }
-
-.fc-face-back-body {
-  flex: 1;
-  display: flex; align-items: center; justify-content: center;
-  padding: 0.75rem 1.25rem;
-  text-align: center;
-  overflow: hidden;
-}
-.fc-back-text {
-  font-size: 0.9rem;
-  color: #1B2B4B;
-  line-height: 1.55;
-}
-.fc-back-text.long { font-size: 0.8rem; }
-
-.fc-face-back-footer {
-  background: rgba(27,43,75,0.06);
-  padding: 0.4rem 1rem;
-  border-top: 1px solid rgba(27,43,75,0.08);
-  display: flex; justify-content: center;
-}
-.fc-back-footer-hint { font-size: 0.65rem; color: var(--grey); }
-
-/* Rating buttons */
-.fc-ratings {
-  width: 100%; max-width: 400px;
-  display: flex; gap: 0.5rem;
-  margin-top: 1rem;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.3s ease 0.4s, transform 0.3s ease 0.4s;
-  pointer-events: none;
-}
-.fc-ratings.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
-
-.rating-btn {
-  flex: 1;
-  padding: 0.7rem 0.5rem;
-  border-radius: 12px;
-  border: none;
-  font-size: 0.8rem;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex; flex-direction: column; align-items: center; gap: 0.2rem;
-  -webkit-tap-highlight-color: transparent;
-}
-.rating-btn .r-icon { font-size: 1.2rem; }
-.rating-btn.again  { background: rgba(198,40,40,0.15); color: #EF5350; border: 1px solid rgba(198,40,40,0.3); }
-.rating-btn.hard   { background: rgba(212,134,10,0.15); color: var(--gold); border: 1px solid rgba(212,134,10,0.3); }
-.rating-btn.good   { background: rgba(46,125,50,0.15); color: #66BB6A; border: 1px solid rgba(46,125,50,0.3); }
-
-/* Progress dots */
-.fc-dots {
-  display: flex; gap: 0.3rem; flex-wrap: wrap; justify-content: center;
-  margin-top: 0.75rem;
-  max-width: 400px;
-}
-.fc-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: rgba(255,255,255,0.12);
-  transition: background 0.3s ease;
-  flex-shrink: 0;
-}
-.fc-dot.seen      { background: rgba(245,166,35,0.4); }
-.fc-dot.good      { background: rgba(46,125,50,0.7); }
-.fc-dot.again     { background: rgba(198,40,40,0.6); }
-.fc-dot.current   { background: var(--gold); transform: scale(1.3); }
-
-/* Session complete overlay */
-.fc-complete {
-  position: absolute; inset: 0;
-  background: var(--navy);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  padding: 2rem;
-  text-align: center;
-  z-index: 20;
-  display: none;
-}
-.fc-complete.show { display: flex; }
-
-
-/* ══════════════════════════════════════════════════════
-   RESOURCES / REVISION PACKS SCREEN
-══════════════════════════════════════════════════════ */
-#resources-home {
-  background: var(--navy);
-}
-.res-inner {
-  padding: calc(var(--safe-top) + 1rem) 1.25rem calc(var(--safe-bot) + 5rem);
-  min-height: 100%;
-  position: relative;
-  z-index: 1;
-}
-.res-hero {
-  background: linear-gradient(135deg, rgba(46,125,50,0.2), rgba(27,43,75,0.4));
-  border: 1px solid rgba(46,125,50,0.25);
-  border-radius: 18px;
-  padding: 1.25rem;
-  margin-bottom: 1.25rem;
-}
-.res-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 0.85rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  margin-bottom: 0.6rem;
-  transition: all 0.2s ease;
-  -webkit-tap-highlight-color: transparent;
-}
-.res-card.available {
-  cursor: pointer;
-  border-color: rgba(46,125,50,0.3);
-  background: rgba(46,125,50,0.06);
-}
-.res-card.available:active {
-  background: rgba(46,125,50,0.18);
-  border-color: rgba(46,125,50,0.6);
-  transform: scale(0.98);
-}
-.res-card.coming-soon {
-  opacity: 0.45;
-}
-.res-icon-wrap {
-  width: 42px; height: 42px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
-  flex-shrink: 0;
-  background: rgba(46,125,50,0.12);
-}
-.res-card.coming-soon .res-icon-wrap {
-  background: rgba(255,255,255,0.05);
-}
-.res-info { flex: 1; min-width: 0; }
-.res-code {
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--grey);
-  text-transform: uppercase;
-  margin-bottom: 0.15rem;
-}
-.res-name {
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--white);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.res-badge {
-  font-size: 0.65rem;
-  font-weight: 700;
-  padding: 0.2rem 0.55rem;
-  border-radius: 20px;
-  flex-shrink: 0;
-  white-space: nowrap;
-}
-.res-badge.open {
-  background: rgba(46,125,50,0.2);
-  color: #81C784;
-  border: 1px solid rgba(46,125,50,0.35);
-}
-.res-badge.soon {
-  background: rgba(255,255,255,0.05);
-  color: var(--grey);
-  border: 1px solid transparent;
-}
-.res-pdf-icon {
-  font-size: 1.1rem;
-  flex-shrink: 0;
-  color: #81C784;
-}
-
+:root{--navy:#1B2B4B;--navy2:#243560;--teal:#1A6B7A;--teal2:#22899B;--amber:#D4860A;--gold:#F5A623;--green:#2E7D32;--red:#C62828;--white:#FFFFFF;--grey:#8A99B0;--border:rgba(255,255,255,0.1);--card:rgba(255,255,255,0.06);--safe-top:env(safe-area-inset-top,0px);--safe-bot:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;font-family:-apple-system,'SF Pro Display','Segoe UI',sans-serif;background:var(--navy);color:var(--white);overflow:hidden}
+.screen{position:fixed;inset:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;display:none;flex-direction:column}
+.screen.active{display:flex}
+.tab-bar{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(20,32,60,0.97);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid rgba(255,255,255,0.08);display:flex;padding-bottom:env(safe-area-inset-bottom,0px)}
+.tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0.5rem 0.25rem;gap:0.2rem;background:none;border:none;cursor:pointer;color:var(--grey);-webkit-tap-highlight-color:transparent}
+.tab-btn.active{color:var(--gold)}
+.tab-icon{font-size:1.2rem;line-height:1}
+.tab-label{font-size:0.58rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase}
+.home-bg{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 15% 25%,rgba(26,107,122,0.3) 0%,transparent 55%),radial-gradient(ellipse at 85% 75%,rgba(212,134,10,0.15) 0%,transparent 50%)}
+.logo-wrap{display:flex;align-items:center;gap:0.85rem;margin-bottom:1.5rem}
+.logo-badge{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--teal),var(--navy2));border:1.5px solid rgba(245,166,35,0.4);display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:800;color:var(--gold);font-family:Georgia,serif;flex-shrink:0}
+.logo-text .school{font-size:0.75rem;color:var(--grey);font-weight:500}
+.logo-text .app{font-size:1rem;font-weight:700;color:var(--white)}
+.section-label{font-size:0.7rem;font-weight:700;letter-spacing:0.14em;color:var(--gold);text-transform:uppercase;margin:1.5rem 0 0.75rem;display:flex;align-items:center;gap:0.5rem}
+.section-label::after{content:'';flex:1;height:1px;background:rgba(245,166,35,0.2)}
+.hero-eyebrow{font-size:0.7rem;font-weight:600;letter-spacing:0.12em;color:var(--gold);text-transform:uppercase;margin-bottom:0.4rem}
+.back-btn{width:34px;height:34px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--white);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.prog-bar{height:3px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--gold));border-radius:2px;transition:width 0.4s cubic-bezier(0.4,0,0.2,1)}
+.btn-primary{padding:1rem;background:linear-gradient(135deg,var(--teal),#0d5260);border:none;border-radius:14px;color:var(--white);font-size:0.95rem;font-weight:700;cursor:pointer;width:100%}
+.btn-secondary{padding:0.9rem;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:14px;color:var(--white);font-size:0.9rem;font-weight:600;cursor:pointer;width:100%}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* QUIZ HOME */
+#home{background:var(--navy)}
+.home-inner{position:relative;z-index:1;padding:calc(var(--safe-top) + 1.5rem) 1.25rem calc(var(--safe-bot) + 5rem)}
+.hero{background:linear-gradient(135deg,rgba(26,107,122,0.25),rgba(27,43,75,0.4));border:1px solid rgba(26,107,122,0.3);border-radius:20px;padding:1.5rem;margin-bottom:1.5rem}
+.hero h1{font-size:1.65rem;font-weight:800;line-height:1.2;margin-bottom:0.5rem}
+.hero h1 em{color:var(--gold);font-style:normal}
+.hero p{font-size:0.85rem;color:var(--grey);line-height:1.5;margin-bottom:1rem}
+.hero-stats{display:flex;gap:1rem}
+.stat{text-align:center}
+.stat-num{display:block;font-size:1.4rem;font-weight:800;color:var(--gold);line-height:1}
+.stat-lbl{font-size:0.68rem;color:var(--grey);font-weight:500;letter-spacing:0.05em}
+.topic-grid{display:flex;flex-direction:column;gap:0.6rem}
+.topic-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:0.9rem 1rem;display:flex;align-items:center;gap:0.9rem;cursor:pointer;transition:all 0.2s ease}
+.topic-card:active{background:rgba(26,107,122,0.2);border-color:var(--teal);transform:scale(0.98)}
+.topic-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.topic-info{flex:1;min-width:0}
+.topic-code{font-size:0.65rem;font-weight:700;letter-spacing:0.1em;color:var(--grey);text-transform:uppercase;margin-bottom:0.15rem}
+.topic-name{font-size:0.9rem;font-weight:600;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topic-right{display:flex;flex-direction:column;align-items:flex-end;gap:0.3rem;flex-shrink:0}
+.score-pill{font-size:0.65rem;font-weight:700;padding:0.15rem 0.45rem;border-radius:20px;background:rgba(255,255,255,0.08);color:var(--grey)}
+.score-pill.good{background:rgba(46,125,50,0.25);color:#81C784}
+.score-pill.ok{background:rgba(212,134,10,0.2);color:var(--gold)}
+.score-pill.low{background:rgba(198,40,40,0.2);color:#EF9A9A}
+.chevron{color:var(--grey);font-size:0.8rem}
+/* QUIZ SCREEN */
+#quiz{background:var(--navy)}
+.quiz-header{position:sticky;top:0;z-index:10;background:rgba(27,43,75,0.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:calc(var(--safe-top) + 0.75rem) 1.25rem 0.75rem}
+.quiz-nav{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem}
+.quiz-title-wrap{flex:1;min-width:0}
+.quiz-topic-name{font-size:0.78rem;font-weight:700;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.quiz-topic-code{font-size:0.65rem;color:var(--grey)}
+.quiz-counter{font-size:0.75rem;font-weight:700;color:var(--gold);flex-shrink:0}
+.quiz-body{padding:1.25rem 1.25rem calc(var(--safe-bot) + 6rem);flex:1}
+.q-topic-tag{display:inline-block;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal2);background:rgba(26,107,122,0.15);border:1px solid rgba(26,107,122,0.3);border-radius:6px;padding:0.2rem 0.5rem;margin-bottom:0.75rem}
+.q-text{font-size:1.05rem;font-weight:600;line-height:1.55;color:var(--white);margin-bottom:1.25rem}
+.options{display:flex;flex-direction:column;gap:0.55rem}
+.opt-btn{display:flex;align-items:flex-start;gap:0.75rem;width:100%;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.1);border-radius:12px;padding:0.85rem 1rem;color:var(--white);font-size:0.9rem;font-weight:500;text-align:left;cursor:pointer;line-height:1.4}
+.opt-letter{width:26px;height:26px;border-radius:7px;background:rgba(255,255,255,0.08);font-size:0.75rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.opt-btn.correct{background:rgba(46,125,50,0.2);border-color:var(--green)}
+.opt-btn.correct .opt-letter{background:var(--green)}
+.opt-btn.wrong{background:rgba(198,40,40,0.15);border-color:var(--red)}
+.opt-btn.wrong .opt-letter{background:var(--red)}
+.opt-btn.reveal{background:rgba(46,125,50,0.1);border-color:rgba(46,125,50,0.4)}
+.opt-btn.reveal .opt-letter{background:rgba(46,125,50,0.5)}
+.feedback-box{margin-top:1rem;padding:0.9rem 1rem;border-radius:12px;font-size:0.85rem;line-height:1.55;display:none;animation:fadeUp 0.25s ease}
+.feedback-box.show{display:block}
+.feedback-box.correct-fb{background:rgba(46,125,50,0.15);border:1px solid rgba(46,125,50,0.35);color:#C8E6C9}
+.feedback-box.wrong-fb{background:rgba(198,40,40,0.12);border:1px solid rgba(198,40,40,0.3);color:#FFCDD2}
+.next-wrap{position:fixed;bottom:0;left:0;right:0;padding:0.75rem 1.25rem calc(var(--safe-bot) + 3.5rem);background:linear-gradient(transparent,rgba(27,43,75,0.98) 30%);display:none;z-index:10}
+.next-wrap.show{display:block}
+.next-btn{width:100%;padding:1rem;background:linear-gradient(135deg,var(--teal),#0d5260);border:none;border-radius:14px;color:var(--white);font-size:1rem;font-weight:700;cursor:pointer}
+/* RESULTS */
+#results{background:var(--navy);align-items:center;justify-content:center}
+.results-inner{padding:calc(var(--safe-top) + 2rem) 1.5rem calc(var(--safe-bot) + 5rem);text-align:center;width:100%;max-width:400px;margin:0 auto}
+.results-icon{font-size:4rem;margin-bottom:1rem}
+.results-title{font-size:1.8rem;font-weight:800;margin-bottom:0.25rem}
+.results-topic{font-size:0.8rem;color:var(--grey);margin-bottom:1.5rem}
+.score-ring-wrap{margin:0 auto 1.5rem;width:140px;height:140px;position:relative}
+.score-ring-wrap svg{transform:rotate(-90deg)}
+.score-ring-bg{fill:none;stroke:rgba(255,255,255,0.08);stroke-width:8}
+.score-ring-fill{fill:none;stroke:var(--gold);stroke-width:8;stroke-linecap:round;stroke-dasharray:339.3;stroke-dashoffset:339.3;transition:stroke-dashoffset 1s cubic-bezier(0.4,0,0.2,1)}
+.score-ring-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-pct{font-size:2.2rem;font-weight:800;color:var(--gold);line-height:1}
+.score-label{font-size:0.7rem;color:var(--grey);font-weight:600}
+.score-msg{font-size:0.88rem;color:var(--grey);line-height:1.6;margin-bottom:1.75rem}
+.results-stats{display:flex;justify-content:center;gap:2rem;margin-bottom:1.75rem}
+.r-stat{text-align:center}
+.r-stat-num{display:block;font-size:1.6rem;font-weight:800;line-height:1;margin-bottom:0.2rem}
+.r-stat-num.c{color:#81C784}.r-stat-num.w{color:#EF9A9A}
+.r-stat-lbl{font-size:0.68rem;color:var(--grey);font-weight:600;letter-spacing:0.06em}
+.new-best{display:none;background:rgba(245,166,35,0.15);border:1px solid rgba(245,166,35,0.3);border-radius:10px;padding:0.6rem 1rem;font-size:0.82rem;color:var(--gold);font-weight:600;margin-bottom:1.25rem}
+.new-best.show{display:block}
+.results-btns{display:flex;flex-direction:column;gap:0.6rem}
+/* FLASHCARD HOME */
+#flashcard-home{background:var(--navy)}
+.fc-home-inner{position:relative;z-index:1;padding:calc(var(--safe-top) + 1rem) 1.25rem calc(var(--safe-bot) + 5rem)}
+.fc-hero{background:linear-gradient(135deg,rgba(212,134,10,0.2),rgba(27,43,75,0.4));border:1px solid rgba(212,134,10,0.25);border-radius:18px;padding:1.25rem;margin-bottom:1.25rem}
+.fc-topic-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:0.9rem 1rem;display:flex;align-items:center;gap:0.9rem;cursor:pointer;transition:all 0.2s ease;margin-bottom:0.6rem}
+.fc-topic-card:active{background:rgba(212,134,10,0.15);border-color:var(--amber);transform:scale(0.98)}
+.fc-topic-card.coming-soon{opacity:0.45;cursor:default}
+.fc-topic-card.coming-soon:active{transform:none;background:var(--card);border-color:var(--border)}
+.fc-count-pill{font-size:0.65rem;font-weight:700;padding:0.15rem 0.5rem;border-radius:20px;background:rgba(245,166,35,0.15);color:var(--gold);border:1px solid rgba(245,166,35,0.25);white-space:nowrap}
+.fc-count-pill.soon{background:rgba(255,255,255,0.05);color:var(--grey);border-color:transparent}
+/* FLASHCARD VIEWER */
+#flashcard-viewer{background:var(--navy)}
+.fc-header{position:sticky;top:0;z-index:10;background:rgba(27,43,75,0.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:calc(var(--safe-top) + 0.75rem) 1.25rem 0.75rem}
+.fc-nav{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.65rem}
+.fc-title-wrap{flex:1;min-width:0}
+.fc-topic-name{font-size:0.85rem;font-weight:700;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fc-topic-sub{font-size:0.65rem;color:var(--grey)}
+.fc-counter{font-size:0.8rem;font-weight:700;color:var(--gold);flex-shrink:0}
+.fc-tabs{display:flex;gap:0.4rem;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.fc-tabs::-webkit-scrollbar{display:none}
+.fc-tab{flex-shrink:0;font-size:0.68rem;font-weight:700;padding:0.3rem 0.7rem;border-radius:20px;border:1px solid var(--border);background:var(--card);color:var(--grey);cursor:pointer}
+.fc-tab.active{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.fc-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1rem 1.25rem calc(var(--safe-bot) + 5.5rem)}
+.flip-card-wrap{width:100%;max-width:400px;perspective:1200px;cursor:pointer;user-select:none}
+.flip-card{position:relative;width:100%;height:260px;transform-style:preserve-3d;transition:transform 0.55s cubic-bezier(0.4,0,0.2,1)}
+.flip-card.flipped{transform:rotateY(180deg)}
+.fc-face{position:absolute;inset:0;border-radius:20px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;overflow:hidden}
+.fc-face-front{background:var(--navy2);border:1.5px solid rgba(255,255,255,0.1)}
+.fc-face-front.kw-type{background:linear-gradient(160deg,#1B3060,#1B2B4B);border-color:rgba(245,166,35,0.3)}
+.fc-face-front.qa-type{background:linear-gradient(160deg,#0d4a56,#1A3540);border-color:rgba(26,107,122,0.5)}
+.fc-face-front-header{padding:0.75rem 1rem 0.5rem;display:flex;align-items:center;gap:0.5rem}
+.fc-type-badge{font-size:0.6rem;font-weight:800;letter-spacing:0.1em;padding:0.2rem 0.55rem;border-radius:20px;text-transform:uppercase}
+.fc-type-badge.kw{background:rgba(245,166,35,0.2);color:var(--gold);border:1px solid rgba(245,166,35,0.35)}
+.fc-type-badge.qa{background:rgba(26,107,122,0.3);color:#7DD3DB;border:1px solid rgba(26,107,122,0.4)}
+.fc-topic-tag-sm{font-size:0.6rem;font-weight:700;color:var(--grey);letter-spacing:0.08em;text-transform:uppercase;flex:1;text-align:right}
+.fc-card-num{font-size:0.6rem;color:var(--grey);font-weight:600}
+.fc-face-front-body{flex:1;display:flex;align-items:center;justify-content:center;padding:0.5rem 1.25rem 0.75rem;text-align:center}
+.fc-front-text{font-size:1.25rem;font-weight:700;color:var(--white);line-height:1.4}
+.fc-front-text.long{font-size:1rem}
+.fc-front-text.very-long{font-size:0.88rem;font-weight:600}
+.fc-face-front-footer{padding:0.5rem 1rem;border-top:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center}
+.fc-tap-hint{font-size:0.68rem;color:var(--grey)}
+.fc-face-back{background:var(--white);transform:rotateY(180deg);border:1.5px solid rgba(27,43,75,0.15)}
+.fc-face-back-header{background:var(--navy);padding:0.6rem 1rem;display:flex;align-items:center;justify-content:space-between}
+.fc-back-label{font-size:0.62rem;font-weight:800;letter-spacing:0.12em;color:var(--gold);text-transform:uppercase}
+.fc-back-num{font-size:0.62rem;color:rgba(255,255,255,0.5);font-weight:600}
+.fc-face-back-body{flex:1;display:flex;align-items:center;justify-content:center;padding:0.75rem 1.25rem;text-align:center;overflow:hidden}
+.fc-back-text{font-size:0.9rem;color:#1B2B4B;line-height:1.55}
+.fc-back-text.long{font-size:0.8rem}
+.fc-face-back-footer{background:rgba(27,43,75,0.06);padding:0.4rem 1rem;border-top:1px solid rgba(27,43,75,0.08);display:flex;justify-content:center}
+.fc-back-footer-hint{font-size:0.65rem;color:var(--grey)}
+.fc-ratings{width:100%;max-width:400px;display:flex;gap:0.5rem;margin-top:1rem;opacity:0;transform:translateY(8px);transition:opacity 0.3s ease 0.4s,transform 0.3s ease 0.4s;pointer-events:none}
+.fc-ratings.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+.rating-btn{flex:1;padding:0.7rem 0.5rem;border-radius:12px;border:none;font-size:0.8rem;font-weight:700;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:0.2rem}
+.rating-btn .r-icon{font-size:1.2rem}
+.rating-btn.again{background:rgba(198,40,40,0.15);color:#EF5350;border:1px solid rgba(198,40,40,0.3)}
+.rating-btn.hard{background:rgba(212,134,10,0.15);color:var(--gold);border:1px solid rgba(212,134,10,0.3)}
+.rating-btn.good{background:rgba(46,125,50,0.15);color:#66BB6A;border:1px solid rgba(46,125,50,0.3)}
+.fc-dots{display:flex;gap:0.3rem;flex-wrap:wrap;justify-content:center;margin-top:0.75rem;max-width:400px}
+.fc-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.12);transition:background 0.3s ease;flex-shrink:0}
+.fc-dot.seen{background:rgba(245,166,35,0.4)}
+.fc-dot.good{background:rgba(46,125,50,0.7)}
+.fc-dot.again{background:rgba(198,40,40,0.6)}
+.fc-dot.current{background:var(--gold);transform:scale(1.3)}
+.fc-complete{position:absolute;inset:0;background:var(--navy);display:none;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;z-index:20}
+.fc-complete.show{display:flex}
+/* RESOURCES */
+#resources-home{background:var(--navy)}
+.res-inner{position:relative;z-index:1;padding:calc(var(--safe-top) + 1rem) 1.25rem calc(var(--safe-bot) + 5rem)}
+.res-hero{background:linear-gradient(135deg,rgba(46,125,50,0.2),rgba(27,43,75,0.4));border:1px solid rgba(46,125,50,0.25);border-radius:18px;padding:1.25rem;margin-bottom:1.25rem}
+.res-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:0.85rem 1rem;display:flex;align-items:center;gap:0.9rem;margin-bottom:0.6rem;transition:all 0.2s ease}
+.res-card.available{cursor:pointer;border-color:rgba(46,125,50,0.3);background:rgba(46,125,50,0.06)}
+.res-card.available:active{background:rgba(46,125,50,0.18);border-color:rgba(46,125,50,0.6);transform:scale(0.98)}
+.res-card.coming-soon{opacity:0.45}
+.res-icon-wrap{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;background:rgba(46,125,50,0.12)}
+.res-card.coming-soon .res-icon-wrap{background:rgba(255,255,255,0.05)}
+.res-info{flex:1;min-width:0}
+.res-code{font-size:0.65rem;font-weight:700;letter-spacing:0.1em;color:var(--grey);text-transform:uppercase;margin-bottom:0.15rem}
+.res-name{font-size:0.88rem;font-weight:600;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.res-note{font-size:0.6rem;color:var(--grey);margin-top:0.15rem}
+.res-badge{font-size:0.65rem;font-weight:700;padding:0.2rem 0.55rem;border-radius:20px;flex-shrink:0;white-space:nowrap}
+.res-badge.open{background:rgba(46,125,50,0.2);color:#81C784;border:1px solid rgba(46,125,50,0.35)}
+.res-badge.soon{background:rgba(255,255,255,0.05);color:var(--grey)}
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════ HOME SCREEN ═══════════════════════════════ -->
+<!-- QUIZ HOME -->
 <div class="screen active" id="home">
   <div class="home-bg"></div>
   <div class="home-inner">
-
     <div class="logo-wrap">
       <div class="logo-badge">S</div>
-      <div class="logo-text">
-        <div class="school">Santo António International School</div>
-        <div class="app">Geography Revision</div>
-      </div>
+      <div class="logo-text"><div class="school">Santo Ant&#243;nio International School</div><div class="app">Geography Revision</div></div>
     </div>
-
     <div class="hero">
-      <div class="hero-eyebrow">Cambridge IGCSE 0460 · Last exams 2026</div>
+      <div class="hero-eyebrow">Cambridge IGCSE 0460 &#183; Last exams 2026</div>
       <h1>Paper 1<br><em>Quiz Bank</em></h1>
-      <p>20 questions per topic with instant feedback and explanations. Tap any topic to start.</p>
+      <p>20 questions per topic with instant feedback and explanations.</p>
       <div class="hero-stats">
-        <div class="stat">
-          <span class="stat-num">18</span>
-          <span class="stat-lbl">Topics</span>
-        </div>
-        <div class="stat">
-          <span class="stat-num">360</span>
-          <span class="stat-lbl">Questions</span>
-        </div>
-        <div class="stat">
-          <span class="stat-num" id="completed-count">0</span>
-          <span class="stat-lbl">Completed</span>
-        </div>
+        <div class="stat"><span class="stat-num" id="completed-count">0</span><span class="stat-lbl">Completed</span></div>
+        <div class="stat"><span class="stat-num">18</span><span class="stat-lbl">Topics</span></div>
+        <div class="stat"><span class="stat-num">360</span><span class="stat-lbl">Questions</span></div>
       </div>
     </div>
-
     <div style="margin-bottom:1.5rem">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem">
         <span style="font-size:0.7rem;font-weight:700;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase">Overall Progress</span>
         <span id="overall-progress-lbl" style="font-size:0.68rem;color:var(--grey)">No quizzes attempted yet</span>
       </div>
       <div style="height:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden">
-        <div id="overall-progress-fill" style="height:100%;width:0%;border-radius:3px;transition:width 0.6s ease;background:linear-gradient(90deg,var(--teal),var(--gold))"></div>
+        <div id="overall-progress-fill" style="height:100%;width:0%;border-radius:3px;transition:width 0.6s ease"></div>
       </div>
     </div>
-
-    <div class="section-label">Section 1 — Population &amp; Settlement</div>
+    <div class="section-label">Section 1 &#8212; Population &amp; Settlement</div>
     <div class="topic-grid" id="grid-1"></div>
-
-    <div class="section-label">Section 2 — The Natural Environment</div>
+    <div class="section-label">Section 2 &#8212; The Natural Environment</div>
     <div class="topic-grid" id="grid-2"></div>
-
-    <div class="section-label">Section 3 — Economic Development</div>
+    <div class="section-label">Section 3 &#8212; Economic Development</div>
     <div class="topic-grid" id="grid-3"></div>
-
   </div>
 </div>
 
-<!-- ═══════════════════════════════ QUIZ SCREEN ═══════════════════════════════ -->
+<!-- QUIZ SCREEN -->
 <div class="screen" id="quiz">
   <div class="quiz-header">
     <div class="quiz-nav">
-      <button class="back-btn" onclick="goHome()">←</button>
+      <button class="back-btn" onclick="goHome()">&#8592;</button>
       <div class="quiz-title-wrap">
         <div class="quiz-topic-name" id="quiz-topic-name"></div>
         <div class="quiz-topic-code" id="quiz-topic-code"></div>
@@ -1115,54 +254,160 @@ html, body {
     <div class="feedback-box" id="feedback-box"></div>
   </div>
   <div class="next-wrap" id="next-wrap">
-    <button class="next-btn" id="next-btn" onclick="nextQ()">Next →</button>
+    <button class="next-btn" id="next-btn" onclick="nextQ()">Next &#8594;</button>
   </div>
 </div>
 
-<!-- ═══════════════════════════════ RESULTS SCREEN ═══════════════════════════ -->
+<!-- RESULTS -->
 <div class="screen" id="results">
   <div class="results-inner">
-    <div class="results-icon" id="r-icon">🌋</div>
+    <div class="results-icon" id="r-icon">&#127811;</div>
     <div class="results-title" id="r-title">Well done!</div>
     <div class="results-topic" id="r-topic"></div>
-
     <div class="score-ring-wrap">
       <svg width="140" height="140" viewBox="0 0 140 140">
         <circle class="score-ring-bg" cx="70" cy="70" r="54"/>
         <circle class="score-ring-fill" id="score-ring" cx="70" cy="70" r="54"/>
       </svg>
-      <div class="score-ring-text">
-        <div class="score-pct" id="r-pct">0%</div>
-        <div class="score-label">SCORE</div>
-      </div>
+      <div class="score-ring-text"><div class="score-pct" id="r-pct">0%</div><div class="score-label">SCORE</div></div>
     </div>
-
-    <div class="new-best" id="new-best">⭐ New best score!</div>
-
+    <div class="new-best" id="new-best">&#11088; New best score!</div>
     <div class="results-stats">
-      <div class="r-stat">
-        <span class="r-stat-num c" id="r-correct">0</span>
-        <span class="r-stat-lbl">CORRECT</span>
-      </div>
-      <div class="r-stat">
-        <span class="r-stat-num w" id="r-wrong">0</span>
-        <span class="r-stat-lbl">WRONG</span>
-      </div>
+      <div class="r-stat"><span class="r-stat-num c" id="r-correct">0</span><span class="r-stat-lbl">CORRECT</span></div>
+      <div class="r-stat"><span class="r-stat-num w" id="r-wrong">0</span><span class="r-stat-lbl">WRONG</span></div>
     </div>
-
     <p class="score-msg" id="r-msg"></p>
-
     <div class="results-btns">
       <button class="btn-primary" onclick="retryQuiz()">Try Again</button>
-      <button class="btn-secondary" onclick="goHome()">← All Topics</button>
+      <button class="btn-secondary" onclick="goHome()">&#8592; All Topics</button>
     </div>
   </div>
 </div>
 
+<!-- FLASHCARD HOME -->
+<div class="screen" id="flashcard-home">
+  <div class="home-bg"></div>
+  <div class="fc-home-inner">
+    <div class="logo-wrap">
+      <div class="logo-badge">S</div>
+      <div class="logo-text"><div class="school">Santo Ant&#243;nio International School</div><div class="app">Flashcards</div></div>
+    </div>
+    <div class="fc-hero">
+      <div class="hero-eyebrow" style="margin-bottom:0.3rem">Tap to flip &#183; Rate to track progress</div>
+      <div style="font-size:1.4rem;font-weight:800;line-height:1.2;margin-bottom:0.4rem">Revision <em style="color:var(--gold);font-style:normal">Flashcards</em></div>
+      <p style="font-size:0.82rem;color:var(--grey);line-height:1.5;margin-bottom:0.85rem">10 key terms + 10 case-study questions per topic.</p>
+      <div style="display:flex;gap:1rem">
+        <div class="stat"><span class="stat-num" id="fc-total-done">0</span><span class="stat-lbl">Mastered</span></div>
+        <div class="stat"><span class="stat-num" id="fc-topics-done">0</span><span class="stat-lbl">Topics started</span></div>
+      </div>
+    </div>
+    <div class="section-label">Section 1 &#8212; Population &amp; Settlement</div>
+    <div id="fc-grid-1"></div>
+    <div class="section-label">Section 2 &#8212; The Natural Environment</div>
+    <div id="fc-grid-2"></div>
+    <div class="section-label">Section 3 &#8212; Economic Development</div>
+    <div id="fc-grid-3"></div>
+  </div>
+</div>
+
+<!-- FLASHCARD VIEWER -->
+<div class="screen" id="flashcard-viewer">
+  <div class="fc-header">
+    <div class="fc-nav">
+      <button class="back-btn" onclick="closeFCViewer()">&#8592;</button>
+      <div class="fc-title-wrap">
+        <div class="fc-topic-name" id="fc-viewer-name"></div>
+        <div class="fc-topic-sub" id="fc-viewer-sub"></div>
+      </div>
+      <div class="fc-counter" id="fc-viewer-counter">1 / 20</div>
+    </div>
+    <div class="fc-tabs">
+      <button class="fc-tab active" onclick="setFCFilter('all',this)">All 20</button>
+      <button class="fc-tab" onclick="setFCFilter('kw',this)">&#128273; Key Terms</button>
+      <button class="fc-tab" onclick="setFCFilter('qa',this)">&#10067; Questions</button>
+      <button class="fc-tab" onclick="setFCFilter('again',this)">&#128308; Study Again</button>
+    </div>
+    <div class="prog-bar" style="margin-top:0.5rem"><div class="prog-fill" id="fc-prog-fill"></div></div>
+  </div>
+  <div class="fc-body">
+    <div class="flip-card-wrap" id="flip-wrap" onclick="flipCard()">
+      <div class="flip-card" id="flip-card">
+        <div class="fc-face fc-face-front" id="fc-front">
+          <div class="fc-face-front-header">
+            <span class="fc-type-badge" id="fc-badge">KEY TERM</span>
+            <span class="fc-topic-tag-sm" id="fc-tag-sm"></span>
+            <span class="fc-card-num" id="fc-card-num-front"></span>
+          </div>
+          <div class="fc-face-front-body"><div class="fc-front-text" id="fc-front-text">Term here</div></div>
+          <div class="fc-face-front-footer"><span class="fc-tap-hint">&#128070; Tap card to reveal</span></div>
+        </div>
+        <div class="fc-face fc-face-back">
+          <div class="fc-face-back-header">
+            <span class="fc-back-label" id="fc-back-label">Definition</span>
+            <span class="fc-back-num" id="fc-card-num-back"></span>
+          </div>
+          <div class="fc-face-back-body"><div class="fc-back-text" id="fc-back-text">Answer here</div></div>
+          <div class="fc-face-back-footer"><span class="fc-back-footer-hint">Rate yourself below &#8595;</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-ratings" id="fc-ratings">
+      <button class="rating-btn again" onclick="rateCard('again')"><span class="r-icon">&#128308;</span>Again</button>
+      <button class="rating-btn hard"  onclick="rateCard('hard')"><span class="r-icon">&#128993;</span>Hard</button>
+      <button class="rating-btn good"  onclick="rateCard('good')"><span class="r-icon">&#128994;</span>Got it</button>
+    </div>
+    <div class="fc-dots" id="fc-dots"></div>
+  </div>
+  <div class="fc-complete" id="fc-complete">
+    <div style="font-size:3.5rem;margin-bottom:1rem">&#127881;</div>
+    <div style="font-size:1.6rem;font-weight:800;margin-bottom:0.4rem">Session done!</div>
+    <div style="font-size:0.85rem;color:var(--grey);margin-bottom:1.5rem" id="fc-complete-msg"></div>
+    <div style="display:flex;flex-direction:column;gap:0.6rem;width:100%;max-width:300px">
+      <button class="btn-primary" id="fc-review-btn" onclick="reviewAgain()" style="display:none">&#128308; Review hard cards</button>
+      <button class="btn-primary" onclick="restartFC()">&#8635; Restart all cards</button>
+      <button class="btn-secondary" onclick="closeFCViewer()">&#8592; Back to Flashcards</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESOURCES -->
+<div class="screen" id="resources-home">
+  <div class="home-bg"></div>
+  <div class="res-inner">
+    <div class="logo-wrap">
+      <div class="logo-badge">S</div>
+      <div class="logo-text"><div class="school">Santo Ant&#243;nio International School</div><div class="app">Revision Packs</div></div>
+    </div>
+    <div class="res-hero">
+      <div class="hero-eyebrow" style="margin-bottom:0.3rem">Cambridge IGCSE 0460 &#183; Last exams 2026</div>
+      <div style="font-size:1.4rem;font-weight:800;line-height:1.2;margin-bottom:0.4rem">Full <em style="color:#81C784;font-style:normal">Revision Packs</em></div>
+      <p style="font-size:0.82rem;color:var(--grey);line-height:1.5;margin:0">Tap any topic to open the full revision pack PDF.</p>
+    </div>
+    <div class="section-label">Section 1 &#8212; Population &amp; Settlement</div>
+    <div id="res-grid-1"></div>
+    <div class="section-label">Section 2 &#8212; The Natural Environment</div>
+    <div id="res-grid-2"></div>
+    <div class="section-label">Section 3 &#8212; Economic Development</div>
+    <div id="res-grid-3"></div>
+  </div>
+</div>
+
+<!-- TAB BAR -->
+<div class="tab-bar">
+  <button class="tab-btn active" data-tab="quizzes" onclick="showTab('quizzes')">
+    <span class="tab-icon">&#129504;</span><span class="tab-label">Quizzes</span>
+  </button>
+  <button class="tab-btn" data-tab="flashcards" onclick="showTab('flashcards')">
+    <span class="tab-icon">&#127183;</span><span class="tab-label">Flashcards</span>
+  </button>
+  <button class="tab-btn" data-tab="resources" onclick="showTab('resources')">
+    <span class="tab-icon">&#128218;</span><span class="tab-label">Revision</span>
+  </button>
+</div>
+
 <script>
-// ═══════════════════════════════════════════════════════════════════════════════
-// QUESTION BANK — 18 topics × 20 questions
-// ═══════════════════════════════════════════════════════════════════════════════
+
+// ═══════════════════════════ DATA ═══════════════════════════
 const TOPICS = [
   // ── SECTION 1 ──
   {
@@ -1619,406 +864,6 @@ const TOPICS = [
   },
 ];
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════════════════════════════════════════════
-let currentTopic = null;
-let questions = [];
-let qIndex = 0;
-let score = 0;
-let answered = false;
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// STORAGE
-// ═══════════════════════════════════════════════════════════════════════════════
-function getBest(id) {
-  try { return parseInt(localStorage.getItem('sais_best_' + id)) || 0; } catch { return 0; }
-}
-function setBest(id, s) {
-  try { localStorage.setItem('sais_best_' + id, s); } catch {}
-}
-function getCompleted() {
-  try { return parseInt(localStorage.getItem('sais_completed')) || 0; } catch { return 0; }
-}
-function markCompleted(id) {
-  try {
-    const done = JSON.parse(localStorage.getItem('sais_done') || '[]');
-    if (!done.includes(id)) {
-      done.push(id);
-      localStorage.setItem('sais_done', JSON.stringify(done));
-      localStorage.setItem('sais_completed', done.length);
-    }
-  } catch {}
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// HOME SCREEN
-// ═══════════════════════════════════════════════════════════════════════════════
-function buildHome() {
-  document.getElementById('completed-count').textContent = getCompleted();
-
-  [1,2,3].forEach(sec => {
-    const grid = document.getElementById('grid-' + sec);
-    grid.innerHTML = '';
-    TOPICS.filter(t => t.section === sec).forEach(topic => {
-      const best = getBest(topic.id);
-      const pct = best ? Math.round((best/20)*100) : 0;
-      let pillClass = '', pillText = '';
-      if (best > 0) {
-        pillClass = pct >= 80 ? 'good' : pct >= 60 ? 'ok' : 'low';
-        pillText = pct + '%';
-      }
-      const card = document.createElement('div');
-      card.className = 'topic-card';
-      card.onclick = () => startQuiz(topic.id);
-      card.innerHTML = `
-        <div class="topic-icon" style="background:rgba(26,107,122,0.15)">${topic.icon}</div>
-        <div class="topic-info">
-          <div class="topic-code">${topic.id}</div>
-          <div class="topic-name">${topic.name}</div>
-        </div>
-        <div class="topic-right">
-          ${best > 0 ? `<div class="score-pill ${pillClass}">${pillText}</div>` : '<div class="score-pill">Not started</div>'}
-          <div class="chevron">›</div>
-        </div>`;
-      grid.appendChild(card);
-    });
-  });
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// QUIZ
-// ═══════════════════════════════════════════════════════════════════════════════
-function startQuiz(id) {
-  currentTopic = TOPICS.find(t => t.id === id);
-  questions = shuffle([...currentTopic.q]);
-  qIndex = 0; score = 0;
-
-  document.getElementById('quiz-topic-name').textContent = currentTopic.name;
-  document.getElementById('quiz-topic-code').textContent = 'Theme ' + currentTopic.id + ' · 20 Questions';
-
-  showScreen('quiz');
-  renderQ();
-}
-
-function renderQ() {
-  answered = false;
-  const q = questions[qIndex];
-
-  document.getElementById('quiz-counter').textContent = `${qIndex+1} / 20`;
-  document.getElementById('prog-fill').style.width = `${(qIndex/20)*100}%`;
-  document.getElementById('q-topic-tag').textContent = q.t;
-  document.getElementById('q-text').textContent = q.q;
-
-  const opts = document.getElementById('options');
-  opts.innerHTML = '';
-  const letters = ['A','B','C','D'];
-  q.o.forEach((opt, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'opt-btn';
-    btn.innerHTML = `<span class="opt-letter">${letters[i]}</span><span>${opt}</span>`;
-    btn.onclick = () => selectAnswer(i);
-    opts.appendChild(btn);
-  });
-
-  const fb = document.getElementById('feedback-box');
-  fb.className = 'feedback-box';
-  fb.innerHTML = '';
-  document.getElementById('next-wrap').className = 'next-wrap';
-
-  // Scroll to top of quiz body
-  document.getElementById('quiz').scrollTo(0,0);
-}
-
-function selectAnswer(chosen) {
-  if (answered) return;
-  answered = true;
-  const q = questions[qIndex];
-  const btns = document.querySelectorAll('.opt-btn');
-  btns.forEach(b => b.disabled = true);
-
-  const fb = document.getElementById('feedback-box');
-  if (chosen === q.a) {
-    score++;
-    btns[chosen].classList.add('correct');
-    fb.className = 'feedback-box correct-fb show';
-    fb.innerHTML = `<strong>✓ Correct!</strong> ${q.e}`;
-  } else {
-    btns[chosen].classList.add('wrong');
-    btns[q.a].classList.add('reveal');
-    fb.className = 'feedback-box wrong-fb show';
-    fb.innerHTML = `<strong>✗ Not quite.</strong> The answer was <strong>${['A','B','C','D'][q.a]}</strong>. ${q.e}`;
-  }
-
-  const nw = document.getElementById('next-wrap');
-  document.getElementById('next-btn').textContent = qIndex < 19 ? 'Next →' : 'See Results →';
-  nw.className = 'next-wrap show';
-}
-
-function nextQ() {
-  qIndex++;
-  if (qIndex >= 20) showResults();
-  else renderQ();
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// RESULTS
-// ═══════════════════════════════════════════════════════════════════════════════
-function showResults() {
-  const pct = Math.round((score/20)*100);
-  const prev = getBest(currentTopic.id);
-  const isNew = score > prev;
-  if (isNew) setBest(currentTopic.id, score);
-  markCompleted(currentTopic.id);
-
-  document.getElementById('r-topic').textContent = 'Theme ' + currentTopic.id + ' — ' + currentTopic.name;
-  document.getElementById('r-pct').textContent = pct + '%';
-  document.getElementById('r-correct').textContent = score;
-  document.getElementById('r-wrong').textContent = 20 - score;
-  document.getElementById('new-best').className = isNew ? 'new-best show' : 'new-best';
-
-  const ring = document.getElementById('score-ring');
-  const circumference = 339.3;
-  setTimeout(() => {
-    ring.style.strokeDashoffset = circumference - (pct / 100) * circumference;
-    ring.style.stroke = pct >= 80 ? '#81C784' : pct >= 60 ? '#F5A623' : '#EF9A9A';
-  }, 100);
-
-  let icon, title, msg;
-  if (pct >= 90)      { icon='🏆'; title='Outstanding!';  msg=`${score}/20 — exam-ready. Exceptional work on ${currentTopic.name}.`; }
-  else if (pct >= 75) { icon='⭐'; title='Great Work!';   msg=`${score}/20 — strong understanding. Review any missed questions.`; }
-  else if (pct >= 55) { icon='📖'; title='Good Effort';   msg=`${score}/20 — solid foundation with some gaps. Revisit the revision pack.`; }
-  else                { icon='📚'; title='Keep Revising'; msg=`${score}/20 — go back through the pack carefully, then try again.`; }
-
-  document.getElementById('r-icon').textContent = icon;
-  document.getElementById('r-title').textContent = title;
-  document.getElementById('r-msg').textContent = msg;
-
-  showScreen('results');
-}
-
-function retryQuiz() {
-  startQuiz(currentTopic.id);
-}
-
-function goHome() {
-  buildHome();
-  updateOverallProgress();
-  showScreen('home');
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// SCREEN SWITCHING
-// ═══════════════════════════════════════════════════════════════════════════════
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.getElementById(id).scrollTo(0,0);
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// UTILS
-// ═══════════════════════════════════════════════════════════════════════════════
-function shuffle(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// SERVICE WORKER (PWA offline support)
-// ═══════════════════════════════════════════════════════════════════════════════
-if ('serviceWorker' in navigator) {
-  const swCode = `
-    const CACHE = 'sais-geo-v3';
-    const OLD_CACHES = ['sais-geo-v1','sais-geo-v2'];
-
-    // On install: cache the page, then immediately activate
-    self.addEventListener('install', e => {
-      e.waitUntil(
-        caches.open(CACHE)
-          .then(c => c.addAll(['./', './index.html']))
-          .then(() => self.skipWaiting())
-      );
-    });
-
-    // On activate: delete old caches, take control immediately
-    self.addEventListener('activate', e => {
-      e.waitUntil(
-        caches.keys().then(keys =>
-          Promise.all(keys.filter(k => OLD_CACHES.includes(k)).map(k => caches.delete(k)))
-        ).then(() => self.clients.claim())
-      );
-    });
-
-    // Fetch: network first, fall back to cache
-    // This means updates always come through when online
-    self.addEventListener('fetch', e => {
-      if (e.request.method !== 'GET') return;
-      e.respondWith(
-        fetch(e.request)
-          .then(response => {
-            const copy = response.clone();
-            caches.open(CACHE).then(c => c.put(e.request, copy));
-            return response;
-          })
-          .catch(() => caches.match(e.request))
-      );
-    });
-
-    // Tell all open tabs to reload when a new SW activates
-    self.addEventListener('message', e => {
-      if (e.data === 'skipWaiting') self.skipWaiting();
-    });
-  `;
-  const swBlob = new Blob([swCode], {type: 'application/javascript'});
-  const swUrl = URL.createObjectURL(swBlob);
-
-  navigator.serviceWorker.register(swUrl).then(reg => {
-    // Check for updates every time the page loads
-    reg.update();
-
-    // When a new SW is waiting, activate it and reload
-    reg.addEventListener('updatefound', () => {
-      const newSW = reg.installing;
-      newSW.addEventListener('statechange', () => {
-        if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
-          // New version ready — reload all tabs silently
-          newSW.postMessage('skipWaiting');
-        }
-      });
-    });
-  }).catch(() => {});
-
-  // When the SW controller changes (new version activated), reload the page
-  let refreshing = false;
-  navigator.serviceWorker.addEventListener('controllerchange', () => {
-    if (!refreshing) {
-      refreshing = true;
-      window.location.reload();
-    }
-  });
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// INSTALL PROMPT (PWA Add to Home Screen)
-// ═══════════════════════════════════════════════════════════════════════════════
-let deferredInstallPrompt = null;
-
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredInstallPrompt = e;
-  showInstallBanner();
-});
-
-function showInstallBanner() {
-  if (document.getElementById('install-banner')) return;
-  const banner = document.createElement('div');
-  banner.id = 'install-banner';
-  banner.style.cssText = `
-    position:fixed; bottom:0; left:0; right:0; z-index:999;
-    background:linear-gradient(135deg,#1A6B7A,#1B2B4B);
-    border-top:1px solid rgba(245,166,35,0.3);
-    padding:0.85rem 1.25rem calc(env(safe-area-inset-bottom,0px) + 0.85rem);
-    display:flex; align-items:center; gap:0.75rem;
-    animation:slideUp 0.3s ease;
-  `;
-  banner.innerHTML = `
-    <div style="font-size:1.8rem">📱</div>
-    <div style="flex:1">
-      <div style="font-size:0.85rem;font-weight:700;color:#fff">Install SAIS Geography</div>
-      <div style="font-size:0.72rem;color:#8A99B0">Add to Home Screen for offline access</div>
-    </div>
-    <button onclick="installApp()" style="background:#F5A623;border:none;border-radius:8px;color:#1B2B4B;font-weight:700;font-size:0.8rem;padding:0.5rem 0.85rem;cursor:pointer">Install</button>
-    <button onclick="dismissInstall()" style="background:none;border:none;color:#8A99B0;font-size:1.2rem;cursor:pointer;padding:0.25rem">✕</button>
-  `;
-  document.body.appendChild(banner);
-}
-
-function installApp() {
-  if (!deferredInstallPrompt) return;
-  deferredInstallPrompt.prompt();
-  deferredInstallPrompt.userChoice.then(() => { dismissInstall(); });
-}
-
-function dismissInstall() {
-  const b = document.getElementById('install-banner');
-  if (b) b.remove();
-}
-
-// iOS install hint (Safari doesn't support beforeinstallprompt)
-function checkIOSInstall() {
-  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  const isStandalone = window.navigator.standalone;
-  const dismissed = localStorage.getItem('sais_ios_hint');
-  if (isIOS && !isStandalone && !dismissed) {
-    setTimeout(() => {
-      const banner = document.createElement('div');
-      banner.id = 'install-banner';
-      banner.style.cssText = `
-        position:fixed; bottom:0; left:0; right:0; z-index:999;
-        background:linear-gradient(135deg,#1A6B7A,#1B2B4B);
-        border-top:1px solid rgba(245,166,35,0.3);
-        padding:0.85rem 1.25rem calc(env(safe-area-inset-bottom,0px) + 0.85rem);
-        animation:slideUp 0.3s ease;
-      `;
-      banner.innerHTML = `
-        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem">
-          <div style="font-size:1.6rem">📱</div>
-          <div style="flex:1">
-            <div style="font-size:0.85rem;font-weight:700;color:#fff">Install for offline use</div>
-          </div>
-          <button onclick="this.closest('#install-banner').remove();localStorage.setItem('sais_ios_hint','1')" style="background:none;border:none;color:#8A99B0;font-size:1.2rem;cursor:pointer">✕</button>
-        </div>
-        <div style="font-size:0.78rem;color:#8A99B0;line-height:1.5">
-          Tap <strong style="color:#F5A623">Share</strong> ↑ then <strong style="color:#F5A623">Add to Home Screen</strong> to install this app.
-        </div>
-      `;
-      document.body.appendChild(banner);
-    }, 3000);
-  }
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// OVERALL PROGRESS BAR on home
-// ═══════════════════════════════════════════════════════════════════════════════
-function updateOverallProgress() {
-  let totalPct = 0, count = 0;
-  TOPICS.forEach(t => {
-    const b = getBest(t.id);
-    if (b > 0) { totalPct += Math.round((b/20)*100); count++; }
-  });
-  const el = document.getElementById('overall-progress-fill');
-  const lbl = document.getElementById('overall-progress-lbl');
-  if (el) {
-    const avg = count > 0 ? Math.round(totalPct / count) : 0;
-    el.style.width = avg + '%';
-    el.style.background = avg >= 80
-      ? 'linear-gradient(90deg,#2E7D32,#81C784)'
-      : avg >= 60
-      ? 'linear-gradient(90deg,#D4860A,#F5A623)'
-      : 'linear-gradient(90deg,#1A6B7A,#22899B)';
-    if (lbl) lbl.textContent = count > 0 ? `Average across ${count} attempted topic${count>1?'s':''}: ${avg}%` : 'No quizzes attempted yet';
-  }
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// ENHANCED buildHome with progress bar
-// ═══════════════════════════════════════════════════════════════════════════════
-const _origBuildHome = buildHome;
-// Patch hero stats to also update progress bar after build
-const _origBuildHomeRef = buildHome;
-function buildHomeWithProgress() {
-  buildHome();
-  updateOverallProgress();
-}
-
-
-// ═══════════════════════════════════════════════════════════════════════════
-// FLASHCARD DATA BANK
-// ═══════════════════════════════════════════════════════════════════════════
 const FC_TOPICS = {
   "1.1": {
     name: "Population Dynamics",
@@ -3054,314 +1899,8 @@ const FC_TOPICS = {
   // Additional topics will be added here as they are built
 };
 
-// Topics with no flashcards yet (Coming Soon)
 const FC_COMING_SOON = [];
 
-// ═══════════════════════════════════════════════════════════════════════════
-// FLASHCARD STATE
-// ═══════════════════════════════════════════════════════════════════════════
-let fcCurrentTopic = null;
-let fcDeck    = [];   // current filtered deck
-let fcFullDeck= [];   // full deck for this topic
-let fcIndex   = 0;
-let fcIsFlipped = false;
-let fcFilter  = 'all';
-let fcRatings = {};   // cardIndex → 'again'|'hard'|'good'
-
-// ═══════════════════════════════════════════════════════════════════════════
-// FC STORAGE
-// ═══════════════════════════════════════════════════════════════════════════
-function fcSaveRatings(topicId, ratings) {
-  try { localStorage.setItem('fc_ratings_' + topicId, JSON.stringify(ratings)); } catch {}
-}
-function fcLoadRatings(topicId) {
-  try { return JSON.parse(localStorage.getItem('fc_ratings_' + topicId) || '{}'); } catch { return {}; }
-}
-function fcGetMastered(topicId) {
-  const r = fcLoadRatings(topicId);
-  return Object.values(r).filter(v => v === 'good').length;
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
-// BUILD FLASHCARD HOME
-// ═══════════════════════════════════════════════════════════════════════════
-function buildFCHome() {
-  // Update hero stats
-  let totalMastered = 0, topicsStarted = 0;
-  Object.keys(FC_TOPICS).forEach(id => {
-    const m = fcGetMastered(id);
-    totalMastered += m;
-    if (Object.keys(fcLoadRatings(id)).length > 0) topicsStarted++;
-  });
-  document.getElementById('fc-total-done').textContent = totalMastered;
-  document.getElementById('fc-topics-done').textContent = topicsStarted;
-
-  [1,2,3].forEach(sec => {
-    const grid = document.getElementById('fc-grid-' + sec);
-    if (!grid) return;
-    grid.innerHTML = '';
-    TOPICS.filter(t => t.section === sec).forEach(topic => {
-      const hasCards = !!FC_TOPICS[topic.id];
-      const mastered = hasCards ? fcGetMastered(topic.id) : 0;
-      const total    = hasCards ? FC_TOPICS[topic.id].cards.length : 0;
-      const card = document.createElement('div');
-      card.className = 'fc-topic-card' + (hasCards ? '' : ' coming-soon');
-      if (hasCards) card.onclick = () => openFCViewer(topic.id);
-      card.innerHTML = `
-        <div class="topic-icon" style="background:rgba(212,134,10,0.12)">${topic.icon}</div>
-        <div class="topic-info">
-          <div class="topic-code">${topic.id}</div>
-          <div class="topic-name">${topic.name}</div>
-        </div>
-        <div class="topic-right">
-          ${hasCards
-            ? `<span class="fc-count-pill">${mastered}/${total} mastered</span>`
-            : `<span class="fc-count-pill soon">Coming soon</span>`}
-          <div class="chevron">${hasCards ? '›' : ''}</div>
-        </div>`;
-      grid.appendChild(card);
-    });
-  });
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
-// OPEN FC VIEWER
-// ═══════════════════════════════════════════════════════════════════════════
-function openFCViewer(topicId) {
-  fcCurrentTopic = topicId;
-  fcFilter = 'all';
-  fcRatings = fcLoadRatings(topicId);
-
-  const topic = FC_TOPICS[topicId];
-  const info  = TOPICS.find(t => t.id === topicId);
-
-  document.getElementById('fc-viewer-name').textContent = info.name;
-  document.getElementById('fc-viewer-sub').textContent  = `Theme ${topicId} · ${topic.cards.length} cards`;
-
-  // Reset filter tab UI
-  document.querySelectorAll('.fc-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.fc-tab')[0].classList.add('active');
-
-  // Hide complete overlay
-  document.getElementById('fc-complete').classList.remove('show');
-
-  fcFullDeck = topic.cards.map((c, i) => ({...c, origIndex: i}));
-  buildDeck('all');
-  showScreen('flashcard-viewer');
-}
-
-function buildDeck(filter) {
-  fcFilter = filter;
-  if (filter === 'all') {
-    fcDeck = [...fcFullDeck];
-  } else if (filter === 'kw') {
-    fcDeck = fcFullDeck.filter(c => c.type === 'kw');
-  } else if (filter === 'qa') {
-    fcDeck = fcFullDeck.filter(c => c.type === 'qa');
-  } else if (filter === 'again') {
-    fcDeck = fcFullDeck.filter(c => fcRatings[c.origIndex] === 'again' || fcRatings[c.origIndex] === 'hard');
-  }
-  if (fcDeck.length === 0) {
-    fcDeck = [...fcFullDeck]; // fallback
-  }
-  fcIndex = 0;
-  renderFCCard();
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
-// RENDER CARD
-// ═══════════════════════════════════════════════════════════════════════════
-function renderFCCard() {
-  const card = fcDeck[fcIndex];
-  if (!card) return;
-
-  fcIsFlipped = false;
-  const flipEl = document.getElementById('flip-card');
-  flipEl.classList.remove('flipped');
-
-  // Update counter
-  document.getElementById('fc-viewer-counter').textContent = `${fcIndex+1} / ${fcDeck.length}`;
-
-  // Progress bar
-  document.getElementById('fc-prog-fill').style.width = `${((fcIndex)/fcDeck.length)*100}%`;
-
-  // Front face
-  const frontEl = document.getElementById('fc-front');
-  const badge   = document.getElementById('fc-badge');
-  const tagSm   = document.getElementById('fc-tag-sm');
-  const frontTxt= document.getElementById('fc-front-text');
-  const numFront= document.getElementById('fc-card-num-front');
-
-  frontEl.className = 'fc-face fc-face-front ' + (card.type === 'kw' ? 'kw-type' : 'qa-type');
-  badge.className   = 'fc-type-badge ' + (card.type === 'kw' ? 'kw' : 'qa');
-  badge.textContent = card.type === 'kw' ? 'KEY TERM' : 'QUESTION';
-  tagSm.textContent = card.type === 'qa' ? (card.tag || '') : '1.1 POPULATION';
-  numFront.textContent = `${fcIndex+1}/${fcDeck.length}`;
-
-  const frontText = card.front;
-  frontTxt.textContent = frontText;
-  frontTxt.className = 'fc-front-text' +
-    (frontText.length > 60 ? ' very-long' : frontText.length > 30 ? ' long' : '');
-
-  // Back face
-  const backTxt  = document.getElementById('fc-back-text');
-  const backLabel= document.getElementById('fc-back-label');
-  const numBack  = document.getElementById('fc-card-num-back');
-  backLabel.textContent = card.type === 'kw' ? 'DEFINITION' : 'ANSWER';
-  numBack.textContent   = `${fcIndex+1}/${fcDeck.length}`;
-  backTxt.textContent   = card.back;
-  backTxt.className     = 'fc-back-text' + (card.back.length > 140 ? ' long' : '');
-
-  // Hide ratings until flipped
-  document.getElementById('fc-ratings').classList.remove('visible');
-
-  // Progress dots
-  renderDots();
-}
-
-function renderDots() {
-  const dots = document.getElementById('fc-dots');
-  dots.innerHTML = '';
-  fcDeck.forEach((c, i) => {
-    const d = document.createElement('div');
-    const r = fcRatings[c.origIndex];
-    d.className = 'fc-dot' +
-      (i === fcIndex ? ' current' : r === 'good' ? ' good' : r === 'again' || r === 'hard' ? ' again' : r ? ' seen' : '');
-    dots.appendChild(d);
-  });
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
-// FLIP CARD
-// ═══════════════════════════════════════════════════════════════════════════
-function flipCard() {
-  fcIsFlipped = !fcIsFlipped;
-  document.getElementById('flip-card').classList.toggle('flipped', fcIsFlipped);
-  if (fcIsFlipped) {
-    document.getElementById('fc-ratings').classList.add('visible');
-  }
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
-// RATE CARD
-// ═══════════════════════════════════════════════════════════════════════════
-function rateCard(rating) {
-  const card = fcDeck[fcIndex];
-  fcRatings[card.origIndex] = rating;
-  fcSaveRatings(fcCurrentTopic, fcRatings);
-  renderDots();
-
-  // Advance
-  if (fcIndex < fcDeck.length - 1) {
-    fcIndex++;
-    renderFCCard();
-    // Smooth scroll to top of body
-    document.getElementById('flashcard-viewer').scrollTo(0,0);
-  } else {
-    showFCComplete();
-  }
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
-// SESSION COMPLETE
-// ═══════════════════════════════════════════════════════════════════════════
-function showFCComplete() {
-  // Final progress bar fill
-  document.getElementById('fc-prog-fill').style.width = '100%';
-
-  const good  = Object.values(fcRatings).filter(v => v === 'good').length;
-  const again = Object.values(fcRatings).filter(v => v === 'again' || v === 'hard').length;
-  const total = FC_TOPICS[fcCurrentTopic].cards.length;
-
-  document.getElementById('fc-complete-msg').textContent =
-    `${good} of ${total} cards mastered. ${again > 0 ? again + ' card' + (again>1?'s':'')+' to review.' : 'Excellent work!'}`;
-
-  const reviewBtn = document.getElementById('fc-review-btn');
-  reviewBtn.style.display = again > 0 ? 'block' : 'none';
-
-  document.getElementById('fc-complete').classList.add('show');
-  buildFCHome(); // refresh mastery count
-}
-
-function reviewAgain() {
-  document.getElementById('fc-complete').classList.remove('show');
-  buildDeck('again');
-  // activate "Study again" tab visually
-  document.querySelectorAll('.fc-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.fc-tab')[3].classList.add('active');
-}
-
-function restartFC() {
-  document.getElementById('fc-complete').classList.remove('show');
-  // Clear ratings for this topic
-  try { localStorage.removeItem('fc_ratings_' + fcCurrentTopic); } catch {}
-  fcRatings = {};
-  buildDeck('all');
-  document.querySelectorAll('.fc-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.fc-tab')[0].classList.add('active');
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
-// FILTER TABS
-// ═══════════════════════════════════════════════════════════════════════════
-function setFCFilter(filter, btnEl) {
-  document.querySelectorAll('.fc-tab').forEach(t => t.classList.remove('active'));
-  btnEl.classList.add('active');
-  document.getElementById('fc-complete').classList.remove('show');
-  buildDeck(filter);
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
-// SWIPE GESTURE SUPPORT
-// ═══════════════════════════════════════════════════════════════════════════
-(function() {
-  let startX = 0, startY = 0;
-  document.getElementById('flip-wrap').addEventListener('touchstart', e => {
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-  }, {passive:true});
-  document.getElementById('flip-wrap').addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - startX;
-    const dy = e.changedTouches[0].clientY - startY;
-    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
-      // Horizontal swipe — only navigate if flipped and rated
-      if (fcIsFlipped) {
-        if (dx < -40 && fcIndex < fcDeck.length - 1) {
-          // Swipe left to move next (same as 'got it' but without rating)
-          fcIndex++;
-          renderFCCard();
-        } else if (dx > 40 && fcIndex > 0) {
-          fcIndex--;
-          renderFCCard();
-        }
-      }
-    } else if (Math.abs(dy) < 10 && Math.abs(dx) < 10) {
-      // Tap (handled by onclick)
-    }
-  }, {passive:true});
-})();
-
-function closeFCViewer() {
-  buildFCHome();
-  showScreen('flashcard-home');
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
-// TAB BAR — wire up both home screens
-// ═══════════════════════════════════════════════════════════════════════════
-// showTab defined below
-
-// Init
-buildHome();
-updateOverallProgress();
-checkIOSInstall();
-
-// ═══════════════════════════════════════════════════════════════════════════
-// REVISION PACKS — RESOURCES TAB
-// ═══════════════════════════════════════════════════════════════════════════
-
-// PDF filenames — set the filename for completed packs, null for coming soon.
-// Files must be uploaded to your GitHub repository root alongside index.html.
 const REVISION_PACKS = {
   "1.1": { file: "revision_pack_1_1_population_dynamics.pdf",    note: null },
   "1.2": null,
@@ -3383,246 +1922,315 @@ const REVISION_PACKS = {
   "3.7": { file: "revision_pack_3_6_3_7_water_environment.pdf",  note: "Themes 3.6 & 3.7 combined" },
 };
 
-function buildResources() {
-  [1,2,3].forEach(sec => {
-    const grid = document.getElementById('res-grid-' + sec);
-    if (!grid) return;
-    grid.innerHTML = '';
-    TOPICS.filter(t => t.section === sec).forEach(topic => {
-      const pack = REVISION_PACKS[topic.id];
-      const available = !!pack;
-      const card = document.createElement('div');
-      card.className = 'res-card ' + (available ? 'available' : 'coming-soon');
-      if (available) {
-        card.onclick = () => openRevisionPack(topic.id, pack.file);
-      }
-      const noteHTML = (available && pack.note)
-        ? `<div style="font-size:0.6rem;color:var(--grey);margin-top:0.15rem">${pack.note}</div>`
-        : '';
-      card.innerHTML = `
-        <div class="res-icon-wrap">${topic.icon}</div>
-        <div class="res-info">
-          <div class="res-code">Theme ${topic.id}</div>
-          <div class="res-name">${topic.name}</div>
-          ${noteHTML}
-        </div>
-        ${available
-          ? `<span class="res-badge open">Open PDF</span>
-             <span class="res-pdf-icon">📄</span>`
-          : `<span class="res-badge soon">Coming soon</span>`
-        }`;
+// ═══════════════════════════ STORAGE ═══════════════════════════
+function getBest(id){try{return parseInt(localStorage.getItem('sais_best_'+id))||0}catch(e){return 0}}
+function setBest(id,s){try{localStorage.setItem('sais_best_'+id,s)}catch(e){}}
+function markCompleted(id){try{var d=JSON.parse(localStorage.getItem('sais_done')||'[]');if(!d.includes(id)){d.push(id);localStorage.setItem('sais_done',JSON.stringify(d));localStorage.setItem('sais_completed',d.length)}}catch(e){}}
+function getCompleted(){try{return parseInt(localStorage.getItem('sais_completed'))||0}catch(e){return 0}}
+function fcSaveRatings(id,r){try{localStorage.setItem('fc_ratings_'+id,JSON.stringify(r))}catch(e){}}
+function fcLoadRatings(id){try{return JSON.parse(localStorage.getItem('fc_ratings_'+id)||'{}')}catch(e){return {}}}
+function fcGetMastered(id){return Object.values(fcLoadRatings(id)).filter(function(v){return v==='good'}).length}
+function shuffle(arr){for(var i=arr.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=arr[i];arr[i]=arr[j];arr[j]=t;}return arr;}
+
+// ═══════════════════════════ NAVIGATION ═══════════════════════════
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active')});
+  var el=document.getElementById(id);
+  if(el){el.classList.add('active');el.scrollTop=0;}
+}
+
+function showTab(tab){
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active')});
+  document.querySelectorAll('.tab-btn[data-tab="'+tab+'"]').forEach(function(b){b.classList.add('active')});
+  if(tab==='quizzes'){buildHome();showScreen('home');}
+  else if(tab==='flashcards'){buildFCHome();showScreen('flashcard-home');}
+  else if(tab==='resources'){buildResources();showScreen('resources-home');}
+}
+
+// ═══════════════════════════ QUIZ HOME ═══════════════════════════
+function buildHome(){
+  document.getElementById('completed-count').textContent=getCompleted();
+  updateOverallProgress();
+  [1,2,3].forEach(function(sec){
+    var grid=document.getElementById('grid-'+sec);
+    grid.innerHTML='';
+    TOPICS.filter(function(t){return t.section===sec}).forEach(function(topic){
+      var best=getBest(topic.id);
+      var pct=best?Math.round((best/20)*100):0;
+      var pillClass='',pillText='';
+      if(best>0){pillClass=pct>=80?'good':pct>=60?'ok':'low';pillText=pct+'%';}
+      var card=document.createElement('div');
+      card.className='topic-card';
+      card.onclick=function(){startQuiz(topic.id);};
+      card.innerHTML='<div class="topic-icon" style="background:rgba(26,107,122,0.15)">'+topic.icon+'</div><div class="topic-info"><div class="topic-code">'+topic.id+'</div><div class="topic-name">'+topic.name+'</div></div><div class="topic-right">'+(best>0?'<span class="score-pill '+pillClass+'">'+pillText+'</span>':'<span class="score-pill">Not started</span>')+'<div class="chevron">&#8250;</div></div>';
       grid.appendChild(card);
     });
   });
 }
 
-function openRevisionPack(topicId, filename) {
-  // Build URL relative to where the app is hosted
-  const base = window.location.href.replace(/\/[^\/]*$/, '/');
-  const url  = base + filename;
-  window.open(url, '_blank');
-}
-
-// Patch showTab to handle resources
-const _origShowTab = showTab;
-function showTab(tab) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab-btn[data-tab="' + tab + '"]').forEach(b => b.classList.add('active'));
-  if (tab === 'quizzes') {
-    buildHome();
-    showScreen('home');
-  } else if (tab === 'flashcards') {
-    buildFCHome();
-    showScreen('flashcard-home');
-  } else if (tab === 'resources') {
-    buildResources();
-    showScreen('resources-home');
+function updateOverallProgress(){
+  var totalPct=0,count=0;
+  TOPICS.forEach(function(t){var b=getBest(t.id);if(b>0){totalPct+=Math.round((b/20)*100);count++;}});
+  var el=document.getElementById('overall-progress-fill');
+  var lbl=document.getElementById('overall-progress-lbl');
+  if(el){
+    var avg=count>0?Math.round(totalPct/count):0;
+    el.style.width=avg+'%';
+    el.style.background=avg>=80?'linear-gradient(90deg,#2E7D32,#81C784)':avg>=60?'linear-gradient(90deg,#D4860A,#F5A623)':'linear-gradient(90deg,#1A6B7A,#22899B)';
+    if(lbl)lbl.textContent=count>0?'Average across '+count+' topic'+(count>1?'s':'')+': '+avg+'%':'No quizzes attempted yet';
   }
 }
 
+// ═══════════════════════════ QUIZ ENGINE ═══════════════════════════
+var currentTopic=null,questions=[],qIndex=0,score=0,answered=false;
+
+function startQuiz(id){
+  currentTopic=TOPICS.find(function(t){return t.id===id});
+  questions=shuffle([].concat(currentTopic.q));
+  qIndex=0;score=0;
+  document.getElementById('quiz-topic-name').textContent=currentTopic.name;
+  document.getElementById('quiz-topic-code').textContent='Theme '+currentTopic.id+' · 20 Questions';
+  showScreen('quiz');renderQ();
+}
+
+function renderQ(){
+  answered=false;
+  var q=questions[qIndex];
+  document.getElementById('quiz-counter').textContent=(qIndex+1)+' / 20';
+  document.getElementById('prog-fill').style.width=((qIndex/20)*100)+'%';
+  document.getElementById('q-topic-tag').textContent=q.t;
+  document.getElementById('q-text').textContent=q.q;
+  var opts=document.getElementById('options');opts.innerHTML='';
+  var letters=['A','B','C','D'];
+  q.o.forEach(function(opt,i){
+    var btn=document.createElement('button');
+    btn.className='opt-btn';
+    btn.innerHTML='<span class="opt-letter">'+letters[i]+'</span><span>'+opt+'</span>';
+    btn.onclick=function(){selectAnswer(i);};
+    opts.appendChild(btn);
+  });
+  document.getElementById('feedback-box').className='feedback-box';
+  document.getElementById('feedback-box').innerHTML='';
+  document.getElementById('next-wrap').className='next-wrap';
+  document.getElementById('quiz').scrollTop=0;
+}
+
+function selectAnswer(chosen){
+  if(answered)return;answered=true;
+  var q=questions[qIndex];
+  var btns=document.querySelectorAll('.opt-btn');
+  btns.forEach(function(b){b.disabled=true;});
+  var fb=document.getElementById('feedback-box');
+  if(chosen===q.a){score++;btns[chosen].classList.add('correct');fb.className='feedback-box correct-fb show';fb.innerHTML='<strong>&#10003; Correct!</strong> '+q.e;}
+  else{btns[chosen].classList.add('wrong');btns[q.a].classList.add('reveal');fb.className='feedback-box wrong-fb show';fb.innerHTML='<strong>&#10007; Not quite.</strong> The answer was <strong>'+['A','B','C','D'][q.a]+'</strong>. '+q.e;}
+  document.getElementById('next-btn').textContent=qIndex<19?'Next':'See Results';
+  document.getElementById('next-wrap').className='next-wrap show';
+}
+
+function nextQ(){qIndex++;if(qIndex>=20)showResults();else renderQ();}
+
+function showResults(){
+  var pct=Math.round((score/20)*100);
+  var prev=getBest(currentTopic.id);var isNew=score>prev;
+  if(isNew)setBest(currentTopic.id,score);markCompleted(currentTopic.id);
+  document.getElementById('r-topic').textContent='Theme '+currentTopic.id+' — '+currentTopic.name;
+  document.getElementById('r-pct').textContent=pct+'%';
+  document.getElementById('r-correct').textContent=score;
+  document.getElementById('r-wrong').textContent=20-score;
+  document.getElementById('new-best').className=isNew?'new-best show':'new-best';
+  var ring=document.getElementById('score-ring');
+  setTimeout(function(){ring.style.strokeDashoffset=339.3-(pct/100)*339.3;ring.style.stroke=pct>=80?'#81C784':pct>=60?'#F5A623':'#EF9A9A';},100);
+  var icon,title,msg;
+  if(pct>=90){icon='🏆';title='Outstanding!';msg=score+'/20 — exam-ready.';}
+  else if(pct>=75){icon='⭐';title='Great Work!';msg=score+'/20 — strong understanding.';}
+  else if(pct>=55){icon='📖';title='Good Effort';msg=score+'/20 — revisit the pack for gaps.';}
+  else{icon='📚';title='Keep Revising';msg=score+'/20 — go back through the pack.';}
+  document.getElementById('r-icon').textContent=icon;
+  document.getElementById('r-title').textContent=title;
+  document.getElementById('r-msg').textContent=msg;
+  showScreen('results');
+}
+
+function retryQuiz(){startQuiz(currentTopic.id);}
+function goHome(){
+  buildHome();showScreen('home');
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active')});
+  document.querySelector('.tab-btn[data-tab="quizzes"]').classList.add('active');
+}
+
+// ═══════════════════════════ FLASHCARD HOME ═══════════════════════════
+function buildFCHome(){
+  var totalMastered=0,topicsStarted=0;
+  Object.keys(FC_TOPICS).forEach(function(id){var m=fcGetMastered(id);totalMastered+=m;if(Object.keys(fcLoadRatings(id)).length>0)topicsStarted++;});
+  document.getElementById('fc-total-done').textContent=totalMastered;
+  document.getElementById('fc-topics-done').textContent=topicsStarted;
+  [1,2,3].forEach(function(sec){
+    var grid=document.getElementById('fc-grid-'+sec);if(!grid)return;grid.innerHTML='';
+    TOPICS.filter(function(t){return t.section===sec}).forEach(function(topic){
+      var hasCards=!!FC_TOPICS[topic.id];
+      var mastered=hasCards?fcGetMastered(topic.id):0;
+      var total=hasCards?FC_TOPICS[topic.id].cards.length:0;
+      var card=document.createElement('div');
+      card.className='fc-topic-card'+(hasCards?'':' coming-soon');
+      if(hasCards)card.onclick=function(){openFCViewer(topic.id);};
+      card.innerHTML='<div class="topic-icon" style="background:rgba(212,134,10,0.12)">'+topic.icon+'</div><div class="topic-info"><div class="topic-code">'+topic.id+'</div><div class="topic-name">'+topic.name+'</div></div><div class="topic-right">'+(hasCards?'<span class="fc-count-pill">'+mastered+'/'+total+' mastered</span>':'<span class="fc-count-pill soon">Coming soon</span>')+'<div class="chevron">'+(hasCards?'&#8250;':'')+'</div></div>';
+      grid.appendChild(card);
+    });
+  });
+}
+
+// ═══════════════════════════ FLASHCARD VIEWER ═══════════════════════════
+var fcCurrentTopic=null,fcDeck=[],fcFullDeck=[],fcIndex=0,fcIsFlipped=false,fcFilter='all',fcRatings={};
+
+function openFCViewer(topicId){
+  fcCurrentTopic=topicId;fcFilter='all';fcRatings=fcLoadRatings(topicId);
+  var topic=FC_TOPICS[topicId];
+  var info=TOPICS.find(function(t){return t.id===topicId});
+  document.getElementById('fc-viewer-name').textContent=info.name;
+  document.getElementById('fc-viewer-sub').textContent='Theme '+topicId+' · '+topic.cards.length+' cards';
+  document.querySelectorAll('.fc-tab').forEach(function(t){t.classList.remove('active')});
+  document.querySelectorAll('.fc-tab')[0].classList.add('active');
+  document.getElementById('fc-complete').classList.remove('show');
+  fcFullDeck=topic.cards.map(function(c,i){return Object.assign({},c,{origIndex:i})});
+  buildDeck('all');showScreen('flashcard-viewer');
+}
+
+function buildDeck(filter){
+  fcFilter=filter;
+  if(filter==='all')fcDeck=[].concat(fcFullDeck);
+  else if(filter==='kw')fcDeck=fcFullDeck.filter(function(c){return c.type==='kw'});
+  else if(filter==='qa')fcDeck=fcFullDeck.filter(function(c){return c.type==='qa'});
+  else if(filter==='again')fcDeck=fcFullDeck.filter(function(c){return fcRatings[c.origIndex]==='again'||fcRatings[c.origIndex]==='hard'});
+  if(fcDeck.length===0)fcDeck=[].concat(fcFullDeck);
+  fcIndex=0;renderFCCard();
+}
+
+function renderFCCard(){
+  var card=fcDeck[fcIndex];if(!card)return;
+  fcIsFlipped=false;
+  document.getElementById('flip-card').classList.remove('flipped');
+  document.getElementById('fc-viewer-counter').textContent=(fcIndex+1)+' / '+fcDeck.length;
+  document.getElementById('fc-prog-fill').style.width=((fcIndex/fcDeck.length)*100)+'%';
+  var frontEl=document.getElementById('fc-front');
+  frontEl.className='fc-face fc-face-front '+(card.type==='kw'?'kw-type':'qa-type');
+  var badge=document.getElementById('fc-badge');
+  badge.className='fc-type-badge '+(card.type==='kw'?'kw':'qa');
+  badge.textContent=card.type==='kw'?'KEY TERM':'QUESTION';
+  document.getElementById('fc-tag-sm').textContent=card.type==='qa'?(card.tag||''):'Theme '+fcCurrentTopic;
+  document.getElementById('fc-card-num-front').textContent=(fcIndex+1)+'/'+fcDeck.length;
+  var frontTxt=document.getElementById('fc-front-text');
+  frontTxt.textContent=card.front;
+  frontTxt.className='fc-front-text'+(card.front.length>60?' very-long':card.front.length>30?' long':'');
+  document.getElementById('fc-back-label').textContent=card.type==='kw'?'DEFINITION':'ANSWER';
+  document.getElementById('fc-card-num-back').textContent=(fcIndex+1)+'/'+fcDeck.length;
+  var backTxt=document.getElementById('fc-back-text');
+  backTxt.textContent=card.back;
+  backTxt.className='fc-back-text'+(card.back.length>140?' long':'');
+  document.getElementById('fc-ratings').classList.remove('visible');
+  renderDots();
+}
+
+function renderDots(){
+  var dots=document.getElementById('fc-dots');dots.innerHTML='';
+  fcDeck.forEach(function(c,i){
+    var d=document.createElement('div');
+    var r=fcRatings[c.origIndex];
+    d.className='fc-dot'+(i===fcIndex?' current':r==='good'?' good':(r==='again'||r==='hard')?' again':r?' seen':'');
+    dots.appendChild(d);
+  });
+}
+
+function flipCard(){fcIsFlipped=!fcIsFlipped;document.getElementById('flip-card').classList.toggle('flipped',fcIsFlipped);if(fcIsFlipped)document.getElementById('fc-ratings').classList.add('visible');}
+
+function rateCard(rating){
+  var card=fcDeck[fcIndex];fcRatings[card.origIndex]=rating;fcSaveRatings(fcCurrentTopic,fcRatings);renderDots();
+  if(fcIndex<fcDeck.length-1){fcIndex++;renderFCCard();document.getElementById('flashcard-viewer').scrollTop=0;}
+  else showFCComplete();
+}
+
+function showFCComplete(){
+  document.getElementById('fc-prog-fill').style.width='100%';
+  var good=Object.values(fcRatings).filter(function(v){return v==='good'}).length;
+  var again=Object.values(fcRatings).filter(function(v){return v==='again'||v==='hard'}).length;
+  var total=FC_TOPICS[fcCurrentTopic].cards.length;
+  document.getElementById('fc-complete-msg').textContent=good+' of '+total+' mastered. '+(again>0?again+' to review.':'Excellent!');
+  document.getElementById('fc-review-btn').style.display=again>0?'block':'none';
+  document.getElementById('fc-complete').classList.add('show');buildFCHome();
+}
+
+function reviewAgain(){
+  document.getElementById('fc-complete').classList.remove('show');buildDeck('again');
+  document.querySelectorAll('.fc-tab').forEach(function(t){t.classList.remove('active')});
+  document.querySelectorAll('.fc-tab')[3].classList.add('active');
+}
+function restartFC(){
+  document.getElementById('fc-complete').classList.remove('show');
+  try{localStorage.removeItem('fc_ratings_'+fcCurrentTopic)}catch(e){}
+  fcRatings={};buildDeck('all');
+  document.querySelectorAll('.fc-tab').forEach(function(t){t.classList.remove('active')});
+  document.querySelectorAll('.fc-tab')[0].classList.add('active');
+}
+function setFCFilter(filter,btnEl){
+  document.querySelectorAll('.fc-tab').forEach(function(t){t.classList.remove('active')});
+  btnEl.classList.add('active');document.getElementById('fc-complete').classList.remove('show');buildDeck(filter);
+}
+function closeFCViewer(){
+  buildFCHome();showScreen('flashcard-home');
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active')});
+  document.querySelector('.tab-btn[data-tab="flashcards"]').classList.add('active');
+}
+
+(function(){
+  var startX=0,startY=0;
+  var el=document.getElementById('flip-wrap');
+  el.addEventListener('touchstart',function(e){startX=e.touches[0].clientX;startY=e.touches[0].clientY;},{passive:true});
+  el.addEventListener('touchend',function(e){
+    var dx=e.changedTouches[0].clientX-startX,dy=e.changedTouches[0].clientY-startY;
+    if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>40&&fcIsFlipped){
+      if(dx<-40&&fcIndex<fcDeck.length-1){fcIndex++;renderFCCard();}
+      else if(dx>40&&fcIndex>0){fcIndex--;renderFCCard();}
+    }
+  },{passive:true});
+})();
+
+// ═══════════════════════════ RESOURCES ═══════════════════════════
+function buildResources(){
+  [1,2,3].forEach(function(sec){
+    var grid=document.getElementById('res-grid-'+sec);if(!grid)return;grid.innerHTML='';
+    TOPICS.filter(function(t){return t.section===sec}).forEach(function(topic){
+      var pack=REVISION_PACKS[topic.id];
+      var available=!!pack;
+      var card=document.createElement('div');
+      card.className='res-card '+(available?'available':'coming-soon');
+      if(available){
+        (function(f){card.onclick=function(){window.location.href=window.location.href.replace(/\/[^\/]*$/,'/')+f;};})(pack.file);
+      }
+      var noteHTML=(available&&pack.note)?'<div class="res-note">'+pack.note+'</div>':'';
+      card.innerHTML='<div class="res-icon-wrap">'+topic.icon+'</div><div class="res-info"><div class="res-code">Theme '+topic.id+'</div><div class="res-name">'+topic.name+'</div>'+noteHTML+'</div>'+(available?'<span class="res-badge open">Open PDF</span>':'<span class="res-badge soon">Coming soon</span>');
+      grid.appendChild(card);
+    });
+  });
+}
+
+// ═══════════════════════════ PWA SERVICE WORKER ═══════════════════════════
+if('serviceWorker' in navigator){
+  var swCode="const CACHE='sais-geo-v4';const OLD=['sais-geo-v1','sais-geo-v2','sais-geo-v3'];self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['./','./index.html'])).then(()=>self.skipWaiting()))});self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>OLD.includes(k)).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(fetch(e.request).then(r=>{caches.open(CACHE).then(c=>c.put(e.request,r.clone()));return r}).catch(()=>caches.match(e.request)))});self.addEventListener('message',e=>{if(e.data==='skipWaiting')self.skipWaiting()});";
+  var swBlob=new Blob([swCode],{type:'application/javascript'});
+  navigator.serviceWorker.register(URL.createObjectURL(swBlob)).then(function(reg){
+    reg.update();
+    reg.addEventListener('updatefound',function(){
+      var sw=reg.installing;
+      sw.addEventListener('statechange',function(){if(sw.state==='installed'&&navigator.serviceWorker.controller)sw.postMessage('skipWaiting');});
+    });
+  }).catch(function(){});
+  var refreshing=false;
+  navigator.serviceWorker.addEventListener('controllerchange',function(){if(!refreshing){refreshing=true;window.location.reload();}});
+}
+
+// Init
+buildHome();
+buildResources();
+
 </script>
-
-<!-- ══════════════════════════════ FLASHCARD HOME ══════════════════════════ -->
-<div class="screen" id="flashcard-home">
-  <div class="home-bg"></div>
-  <div class="fc-home-inner" style="position:relative;z-index:1">
-
-    <div class="logo-wrap">
-      <div class="logo-badge">S</div>
-      <div class="logo-text">
-        <div class="school">Santo António International School</div>
-        <div class="app">Flashcards</div>
-      </div>
-    </div>
-
-    <div class="fc-hero">
-      <div class="hero-eyebrow" style="margin-bottom:0.3rem">Tap to flip · Rate to track progress</div>
-      <div style="font-size:1.4rem;font-weight:800;line-height:1.2;margin-bottom:0.4rem">
-        Revision <em style="color:var(--gold);font-style:normal">Flashcards</em>
-      </div>
-      <p style="font-size:0.82rem;color:var(--grey);line-height:1.5;margin-bottom:0.85rem">
-        10 key terms + 10 case-study questions per topic. Rate each card — the app remembers what you found hard.
-      </p>
-      <div style="display:flex;gap:1rem">
-        <div class="stat"><span class="stat-num" id="fc-total-done">0</span><span class="stat-lbl">Mastered</span></div>
-        <div class="stat"><span class="stat-num" id="fc-topics-done">0</span><span class="stat-lbl">Topics started</span></div>
-      </div>
-    </div>
-
-    <div class="section-label">Section 1 — Population &amp; Settlement</div>
-    <div id="fc-grid-1"></div>
-    <div class="section-label">Section 2 — The Natural Environment</div>
-    <div id="fc-grid-2"></div>
-    <div class="section-label">Section 3 — Economic Development</div>
-    <div id="fc-grid-3"></div>
-
-  </div>
-</div>
-
-<!-- ══════════════════════════════ FLASHCARD VIEWER ════════════════════════ -->
-<div class="screen" id="flashcard-viewer">
-  <div class="fc-header">
-    <div class="fc-nav">
-      <button class="back-btn" onclick="closeFCViewer()">←</button>
-      <div class="fc-title-wrap">
-        <div class="fc-topic-name" id="fc-viewer-name"></div>
-        <div class="fc-topic-sub" id="fc-viewer-sub"></div>
-      </div>
-      <div class="fc-counter" id="fc-viewer-counter">1 / 20</div>
-    </div>
-    <div class="fc-tabs" id="fc-tabs">
-      <button class="fc-tab active" onclick="setFCFilter('all',this)">All 20</button>
-      <button class="fc-tab" onclick="setFCFilter('kw',this)">🔑 Key Terms</button>
-      <button class="fc-tab" onclick="setFCFilter('qa',this)">❓ Questions</button>
-      <button class="fc-tab" onclick="setFCFilter('again',this)">🔴 Study Again</button>
-    </div>
-    <div class="prog-bar" style="margin-top:0.5rem">
-      <div class="prog-fill" id="fc-prog-fill"></div>
-    </div>
-  </div>
-
-  <div class="fc-body" id="fc-body">
-
-    <div class="flip-card-wrap" id="flip-wrap" onclick="flipCard()">
-      <div class="flip-card" id="flip-card">
-
-        <!-- FRONT -->
-        <div class="fc-face fc-face-front" id="fc-front">
-          <div class="fc-face-front-header">
-            <span class="fc-type-badge" id="fc-badge">KEY TERM</span>
-            <span class="fc-topic-tag-sm" id="fc-tag-sm"></span>
-            <span class="fc-card-num" id="fc-card-num-front"></span>
-          </div>
-          <div class="fc-face-front-body">
-            <div class="fc-front-text" id="fc-front-text">Term here</div>
-          </div>
-          <div class="fc-face-front-footer">
-            <span class="fc-tap-hint"><span>👆</span> Tap card to reveal</span>
-          </div>
-        </div>
-
-        <!-- BACK -->
-        <div class="fc-face fc-face-back" id="fc-back">
-          <div class="fc-face-back-header">
-            <span class="fc-back-label" id="fc-back-label">Definition</span>
-            <span class="fc-back-num" id="fc-card-num-back"></span>
-          </div>
-          <div class="fc-face-back-body">
-            <div class="fc-back-text" id="fc-back-text">Answer here</div>
-          </div>
-          <div class="fc-face-back-footer">
-            <span class="fc-back-footer-hint">Rate yourself below ↓</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Rating buttons -->
-    <div class="fc-ratings" id="fc-ratings">
-      <button class="rating-btn again" onclick="rateCard('again')">
-        <span class="r-icon">🔴</span>Again
-      </button>
-      <button class="rating-btn hard" onclick="rateCard('hard')">
-        <span class="r-icon">🟡</span>Hard
-      </button>
-      <button class="rating-btn good" onclick="rateCard('good')">
-        <span class="r-icon">🟢</span>Got it
-      </button>
-    </div>
-
-    <!-- Progress dots -->
-    <div class="fc-dots" id="fc-dots"></div>
-
-  </div>
-
-  <!-- Session complete overlay -->
-  <div class="fc-complete" id="fc-complete">
-    <div style="font-size:3.5rem;margin-bottom:1rem">🎉</div>
-    <div style="font-size:1.6rem;font-weight:800;margin-bottom:0.4rem">Session done!</div>
-    <div style="font-size:0.85rem;color:var(--grey);margin-bottom:1.5rem" id="fc-complete-msg"></div>
-    <div style="display:flex;flex-direction:column;gap:0.6rem;width:100%;max-width:300px">
-      <button class="btn-primary" id="fc-review-btn" onclick="reviewAgain()" style="display:none">🔴 Review hard cards</button>
-      <button class="btn-primary" onclick="restartFC()">↺ Restart all cards</button>
-      <button class="btn-secondary" onclick="closeFCViewer()">← Back to Flashcards</button>
-    </div>
-  </div>
-
-</div>
-
-
-
-<!-- ══════════════════════════════ RESOURCES SCREEN ════════════════════════ -->
-<div class="screen" id="resources-home">
-  <div class="home-bg"></div>
-  <div class="res-inner">
-
-    <div class="logo-wrap">
-      <div class="logo-badge">S</div>
-      <div class="logo-text">
-        <div class="school">Santo António International School</div>
-        <div class="app">Revision Packs</div>
-      </div>
-    </div>
-
-    <div class="res-hero">
-      <div class="hero-eyebrow" style="margin-bottom:0.3rem">Cambridge IGCSE 0460 · Last exams 2026</div>
-      <div style="font-size:1.4rem;font-weight:800;line-height:1.2;margin-bottom:0.4rem">
-        Full <em style="color:#81C784;font-style:normal">Revision Packs</em>
-      </div>
-      <p style="font-size:0.82rem;color:var(--grey);line-height:1.5;margin:0">
-        Tap any available topic to open the full revision pack PDF — diagrams, case studies, key terms, exam questions and mark schemes.
-      </p>
-    </div>
-
-    <div class="section-label">Section 1 — Population &amp; Settlement</div>
-    <div id="res-grid-1"></div>
-
-    <div class="section-label">Section 2 — The Natural Environment</div>
-    <div id="res-grid-2"></div>
-
-    <div class="section-label">Section 3 — Economic Development</div>
-    <div id="res-grid-3"></div>
-
-  </div>
-</div>
-
-<!-- ══ TAB BAR ══ -->
-<div class="tab-bar">
-  <button class="tab-btn active" data-tab="quizzes" onclick="showTab('quizzes')">
-    <span class="tab-icon">🧠</span>
-    <span class="tab-label">Quizzes</span>
-  </button>
-  <button class="tab-btn" data-tab="flashcards" onclick="showTab('flashcards')">
-    <span class="tab-icon">🃏</span>
-    <span class="tab-label">Flashcards</span>
-  </button>
-  <button class="tab-btn" data-tab="resources" onclick="showTab('resources')">
-    <span class="tab-icon">📚</span>
-    <span class="tab-label">Revision</span>
-  </button>
-</div>
-
-
 </body>
 </html>
