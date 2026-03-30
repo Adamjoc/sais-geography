@@ -197,6 +197,16 @@ html,body{height:100%;font-family:-apple-system,'SF Pro Display','Segoe UI',sans
 .res-badge{font-size:0.65rem;font-weight:700;padding:0.2rem 0.55rem;border-radius:20px;flex-shrink:0;white-space:nowrap}
 .res-badge.open{background:rgba(46,125,50,0.2);color:#81C784;border:1px solid rgba(46,125,50,0.35)}
 .res-badge.soon{background:rgba(255,255,255,0.05);color:var(--grey)}
+/* PAPER 4 SECTION */
+.p4-section{margin-top:0.5rem}
+.p4-card{background:linear-gradient(135deg,rgba(26,107,122,0.18),rgba(27,43,75,0.5));border:1.5px solid rgba(26,107,122,0.45);border-radius:16px;padding:1.1rem 1rem;display:flex;align-items:center;gap:1rem;cursor:pointer;transition:all 0.2s ease}
+.p4-card:active{background:linear-gradient(135deg,rgba(26,107,122,0.35),rgba(27,43,75,0.7));border-color:var(--teal2);transform:scale(0.98)}
+.p4-icon-wrap{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;background:linear-gradient(135deg,rgba(26,107,122,0.35),rgba(27,43,75,0.5));border:1px solid rgba(26,107,122,0.4)}
+.p4-info{flex:1;min-width:0}
+.p4-label{font-size:0.62rem;font-weight:700;letter-spacing:0.12em;color:var(--teal2);text-transform:uppercase;margin-bottom:0.2rem}
+.p4-name{font-size:0.95rem;font-weight:700;color:var(--white);margin-bottom:0.15rem}
+.p4-sub{font-size:0.72rem;color:var(--grey);line-height:1.4}
+.p4-badge{font-size:0.65rem;font-weight:700;padding:0.25rem 0.6rem;border-radius:20px;flex-shrink:0;white-space:nowrap;background:linear-gradient(135deg,rgba(26,107,122,0.4),rgba(26,107,122,0.2));color:#7DD3DB;border:1px solid rgba(26,107,122,0.5)}
 </style>
 </head>
 <body>
@@ -392,6 +402,20 @@ html,body{height:100%;font-family:-apple-system,'SF Pro Display','Segoe UI',sans
     <div id="res-grid-2"></div>
     <div class="section-label">Section 3 &#8212; Economic Development</div>
     <div id="res-grid-3"></div>
+
+    <!-- PAPER 4 -->
+    <div class="section-label" style="margin-top:1.75rem">Paper 4 &#8212; Alternative to Coursework</div>
+    <div class="p4-section">
+      <div class="p4-card" onclick="openPaper4()">
+        <div class="p4-icon-wrap">🏔️</div>
+        <div class="p4-info">
+          <div class="p4-label">Gredos Fieldtrip · IGCSE 0460</div>
+          <div class="p4-name">Paper 4 Revision Pack</div>
+          <div class="p4-sub">Rivers · Ecosystems · Settlement EQA · Exam technique &amp; mark schemes</div>
+        </div>
+        <span class="p4-badge">Open PDF</span>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2198,6 +2222,11 @@ function closeFCViewer(){
 })();
 
 // ═══════════════════════════ RESOURCES ═══════════════════════════
+function openPaper4(){
+  var base=window.location.origin+window.location.pathname.replace(/[^/]*$/,'');
+  window.open(base+'SAIS_Geography_Paper4_Revision_Pack.pdf','_blank');
+}
+
 function buildResources(){
   [1,2,3].forEach(function(sec){
     var grid=document.getElementById('res-grid-'+sec);if(!grid)return;grid.innerHTML='';
@@ -2243,7 +2272,7 @@ buildResources();
 </script>
   <script>
   // Force refresh if new version
-  const VERSION = "1.2"; // ← change this each time you update
+  const VERSION = "1.3"; // ← change this each time you update
 
   if (localStorage.getItem("app_version") !== VERSION) {
     localStorage.setItem("app_version", VERSION);
