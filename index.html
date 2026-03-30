@@ -1905,9 +1905,9 @@ const FC_TOPICS = {
 const FC_COMING_SOON = [];
 
 const REVISION_PACKS = {
-  "1.1": { file: "revision_pack_1_1_population_dynamics.pdf",    note: null },
-  "1.2": { file: "revision_pack_1_2_migration.pdf", note: null },
-  "1.3": { file: "revision_pack_1_3_population_structure.pdf",    note: null },
+  "1.1": { file: "revision_pack_1_1_population_dynamics.pdf",        note: null },
+  "1.2": { file: "revision_pack_1_2_migration.pdf",                  note: null },
+  "1.3": { file: "revision_pack_1_3_population_structure.pdf",       note: null },
   "1.4": { file: "revision_pack_1_4_population_density.pdf",         note: null },
   "1.5": { file: "revision_pack_1_5_settlement_services.pdf",        note: null },
   "1.6": { file: "revision_pack_1_6_urban_areas.pdf",                note: null },
@@ -1916,13 +1916,13 @@ const REVISION_PACKS = {
   "2.2": { file: "revision_pack_2_2_rivers.pdf",                     note: null },
   "2.3": { file: "revision_pack_2_3_coasts.pdf",                     note: null },
   "2.5": { file: "revision_pack_2_5_ecosystems.pdf",                 note: null },
-  "3.1": { file: "revision_pack_3_1_production_development.pdf",     note: null },
-  "3.2": { file: "revision_pack_3_2_food_production.pdf",            note: null },
-  "3.3": { file: "revision_pack_3_3_industry_location.pdf",          note: null },
-  "3.4": { file: "revision_pack_3_4_tourism.pdf",                    note: null },
-  "3.5": { file: "revision_pack_3_5_energy.pdf",                     note: null },
-  "3.6": { file: "revision_pack_3_6_water.pdf",                      note: null },
-  "3.7": { file: "revision_pack_3_7_environmental_risks.pdf",        note: null },
+  "3.1": { file: "revision_pack_3_1_Development.pdf",                note: null },
+  "3.2": { file: "revision_pack_3_2_3_3_food_industry.pdf",          note: "Combined: Food Production & Industry" },
+  "3.3": { file: "revision_pack_3_2_3_3_food_industry.pdf",          note: "Combined: Food Production & Industry" },
+  "3.4": { file: "revision_pack_3_4_3_5_tourism_energy.pdf",         note: "Combined: Tourism & Energy" },
+  "3.5": { file: "revision_pack_3_4_3_5_tourism_energy.pdf",         note: "Combined: Tourism & Energy" },
+  "3.6": { file: "revision_pack_3_6_3_7_water_environment.pdf",      note: "Combined: Water & Environmental Risks" },
+  "3.7": { file: "revision_pack_3_6_3_7_water_environment.pdf",      note: "Combined: Water & Environmental Risks" },
 };
 
 
@@ -2223,7 +2223,7 @@ function buildResources(){
 
 // ═══════════════════════════ PWA SERVICE WORKER ═══════════════════════════
 if('serviceWorker' in navigator){
-  var swCode="const CACHE='sais-geo-v4';const OLD=['sais-geo-v1','sais-geo-v2','sais-geo-v3'];self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['./','./index.html'])).then(()=>self.skipWaiting()))});self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>OLD.includes(k)).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(fetch(e.request).then(r=>{caches.open(CACHE).then(c=>c.put(e.request,r.clone()));return r}).catch(()=>caches.match(e.request)))});self.addEventListener('message',e=>{if(e.data==='skipWaiting')self.skipWaiting()});";
+  var swCode="const CACHE='sais-geo-v5';const OLD=['sais-geo-v1','sais-geo-v2','sais-geo-v3','sais-geo-v4'];self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['./','./index.html'])).then(()=>self.skipWaiting()))});self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>OLD.includes(k)).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(fetch(e.request).then(r=>{caches.open(CACHE).then(c=>c.put(e.request,r.clone()));return r}).catch(()=>caches.match(e.request)))});self.addEventListener('message',e=>{if(e.data==='skipWaiting')self.skipWaiting()});";
   var swBlob=new Blob([swCode],{type:'application/javascript'});
   navigator.serviceWorker.register(URL.createObjectURL(swBlob)).then(function(reg){
     reg.update();
@@ -2243,7 +2243,7 @@ buildResources();
 </script>
   <script>
   // Force refresh if new version
-  const VERSION = "1.1"; // ← change this each time you update
+  const VERSION = "1.2"; // ← change this each time you update
 
   if (localStorage.getItem("app_version") !== VERSION) {
     localStorage.setItem("app_version", VERSION);
